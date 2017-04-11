@@ -120,6 +120,85 @@
             .dimension(statesDim)
             .group(statesGroup);
 
+        // leave crossfilter isArray default (false)
+        // var rowDim = cf.dimension(function(d.rosource))
+        console.log("cf.dimension(function(d){return d}) ",cf.dimension(function(d){return d}))
+
+        var resourcesDim = cf.dimension(function(d){ return d["What_are_a_few_of_the_significant_places_you_look_to_keep_up_with_trends,_technologies,_and_best_practices_in_data_science?_"];},true);
+        var resource = "What_are_a_few_of_the_significant_places_you_look_to_keep_up_with_trends,_technologies,_and_best_practices_in_data_science?_"
+        //var resourcesGroup = resourcesDim.group().reduceSum(function(d) {return +d["What_are_a_few_of_the_significant_places_you_look_to_keep_up_with_trends,_technologies,_and_best_practices_in_data_science?_"];}),
+        
+        // function reduceFieldsAdd(fields) {
+        //     return function(p, v) {
+        //         fields.forEach(function(f) {
+        //             p[f] += 1;
+        //         });
+        //         return p;
+        //     };
+        // }
+        // function reduceFieldsRemove(fields) {
+        //     return function(p, v) {
+        //         fields.forEach(function(f) {
+        //             p[f] -= 1;
+        //         });
+        //         return p;
+        //     };
+        // }
+        // function reduceFieldsInitial(fields) {
+        //     return function() {
+        //         var ret = {};
+        //         fields.forEach(function(f) {
+        //             ret[f] = 0;
+        //         });
+        //         return ret;
+        //     };
+        // }
+        // var resourcesGroup = resourcesDim.group().reduce(reduceFieldsAdd(d.[resource]), reduceFieldsRemove(d.[resource]), reduceFieldsInitial(d.[resource]));
+
+
+        //var resourcesGroup = resourcesDim.group().reduceSum(function(d) {return +d.[resource]}),
+
+        var resourcesGroup = resourcesDim.group();
+        //var resourcesGroup = resourcesDim.groupAll();
+
+        // var resourcesBarChart = dc.barChart("#dates-bars")
+        //     .width(400)
+        //     .height(200)
+        //     .transitionDuration(800)
+        //     .margins({top: 10, right: 50, bottom: 30, left: 40})
+        //     .dimension(resourcesDim)
+        //     .group(resourcesGroup)  
+        //     .x(d3.scale.ordinal())
+        //     .xUnits(dc.units.ordinal)
+        //     // .xUnits(d3.time.days)
+        //     .centerBar(true)
+        //     .renderHorizontalGridLines(true)       
+        //     .brushOn(true)
+        //     // .xAxis().tickFormat(d3.time.format('%b %d'));
+        //     .xAxis().tickFormat();
+
+        var resourcesRowChart = dc.rowChart("#dates-bars")
+            .renderLabel(true)
+            .height(200)
+            .width(450)
+            .dimension(resourcesDim)
+            .group(resourcesGroup)
+            // .cap(3)
+            //.ordering(function(d){return -d.value;})
+            .xAxis().ticks(3);
+
+
+
+        // var resourcesRowChart = dc.rowChart("#dates-bars")
+        //     .width(400).height(200)
+        //     .dimension(resourcesDim)
+        //     .group(resourcesGroup)
+        //     .elasticX(true)
+          //  // .x(d3.scale.ordinal())
+          //  // .xUnits(dc.units.ordinal)
+          //  // .brushOn(true);
+
+
         // var mediumDim = cf.dimension(function(d){ return d.medium;}, true);
         // var mediumGroup = mediumDim.group();
 

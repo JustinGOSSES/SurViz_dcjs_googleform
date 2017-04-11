@@ -1,30 +1,123 @@
 <!DOCTYPE html>
-<html> 
 <head>
-	<title>Title goes here</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/necolas/normalize.css/master/normalize.css">
-	<link rel="stylesheet" type="text/css" href="./Styles/style.css">
-	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.css">
-	<script type="text/javascript" src="https://rawgithub.com/NickQiZhu/dc.js/master/web/js/crossfilter.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.js"></script>
-
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.4.0-alpha.6/crossfilter.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.js"></script>
 </head>
+
 <body>
+	<div id="topics-array-rows"></div>
+	<div id="medium-array-pie"></div>
+	<div id="states-pie"></div>
+	<div id="dates-bars"></div>
+    <script>
+        d3.csv("/data/BDBT_practice_5.csv", function(data) {
+            console.log(data);
+            data = splitBasedSmCol(data)
+            data = takeOutSpacesinKeys(data)
+            console.log("processed into arrays hopefully! ",data);
+            complete: uponDataLoad(data)
+        });
+
+        /// function that splits any string in json that contains a ; into an array
+        function splitBasedSmCol(data){
+            //// for each object, check if each value in key value pair is string, if string check if a ; is present,
+            //// if present ; present in string, make an array and split string into array items on ;
+            //// replace string with array in that value place
+            //// str.split(" ")
+            var processedData = data
+            var row_number = -1
+            processedData.forEach(function(row){
+                row_number += 1
+                keys = Object.keys(row)
+                values = Object.values(row)
+                for (i = 0; i < values.length; i++) {  
+                    if (typeof values[i] === 'string' && values[i].indexOf(';') >-1){
+                        newValue = values[i].split(";")
+                        console.log("newValue",newValue)
+                        console.log("processedData",processedData)
+                        console.log("row",row)
+                        processedData[row_number][keys[i]] = newValue
+                    }
+                }
+            });
+            return processedData
+        }
+        function takeOutSpacesinKeys(data){
+            //// for each object in data, replace all " " in key name with "_" so it is easier to use as ID
+            //// for each element in each row, find key and replace " " with "_"
+            var processedData = data
+            var row_number = -1
+            processedData.forEach(function(row){
+                row_number += 1
+                keys = Object.keys(row)
+                values = Object.values(row)
+                for (i = 0; i < keys.length; i++) {  
+                    //// a.Prop3 = a.Prop1;
+                    //// delete a.Prop1;
+                    //// var res = str.replace("Microsoft", "W3Schools");
+                    newKeyString = keys[i].replace(/ /g ,"_")
+                    console.log("newKeyString ",newKeyString)
+                    processedData[row_number][newKeyString] = processedData[row_number][keys[i]]
+                    delete processedData[row_number][keys[i]]
+                }
+            });
+            return processedData
+        }
 
 
+    </script>
+    <script>
+    function uponDataLoad(data){
+        console.log("data in second script ",data)
+        var dataOriginal = [
+            {"key":"KEY-1","state":"CA", "topics":["Technology", "Science", "Automotive"], "medium":["paper", "web"], "date":new Date("10/02/2012")},
+            {"key":"KEY-2","state":"CA", "topics":["Health"], "medium":["paper"], "date": new Date("10/05/2012")},
+            {"key":"KEY-3","state":"OR", "topics":["Science"], "medium":["web"], "date":new Date("10/08/2012")},
+            {"key":"KEY-4","state":"WA", "topics":["Automotive", "Science"], "medium":["web"], "date":new Date("10/09/2012")},
+            {"key":"KEY-5","state":"WA", "topics":["Science"], "medium":["tv"], "date":new Date("10/09/2012")},
+            {"key":"KEY-6","state":"WA", "topics": ["Health"], "medium":["tv"], "date":new Date("10/03/2012")},
+            {"key":"KEY-7","state":"CA", "topics":["Technology", "Science", "Automotive"], "medium":["paper", "web"], "date":new Date("10/02/2012")},
+            {"key":"KEY-8","state":"OR", "topics":["Health"], "medium":["web", "tv"], "date": new Date("10/06/2012")},
+            {"key":"KEY-9","state":"OR", "topics":["Technology"], "medium":["paper", "tv"], "date":new Date("10/08/2012")},
+            ];
 
+        var cf = crossfilter(data);
 
+        // // tell crossfilter that this dimension isArray=true
+        var mediumDim = cf.dimension(function(d){ return d["What_is_your_favorite_color?__[single_word_or_hex_code]"];});
+        var mediumGroup = mediumDim.group();
 
+        var mediumArrayPieChart = dc.pieChart("#medium-array-pie")
+            .height(100)
+            .width(100)
+            .dimension(mediumDim)
+            .group(mediumGroup);
 
-	<script>
-		d3.csv("/data/BigDataBigThink2017SurveyB.csv", function(data) {
-			console.log(data);
-		});
+        var statesDim = cf.dimension(function(d){ return d['Are_you_attending_the_2017_"Big_Data_Big_Think"?'];});
+        var statesGroup = statesDim.group();
 
-	</script>
+        var statesPieChart = dc.pieChart("#states-pie")
+            .height(100)
+            .width(100)
+            .dimension(statesDim)
+            .group(statesGroup);
+
+        // leave crossfilter isArray default (false)
+        var resourcesDim = cf.dimension(function(d){ return d["What_are_a_few_of_the_significant_places_you_look_to_keep_up_with_trends,_technologies,_and_best_practices_in_data_science?_"];},true);
+        var resource = "What_are_a_few_of_the_significant_places_you_look_to_keep_up_with_trends,_technologies,_and_best_practices_in_data_science?_"
+        var resourcesGroup = resourcesDim.group();
+        var resourcesRowChart = dc.rowChart("#dates-bars")
+            .renderLabel(true)
+            .height(200)
+            .width(450)
+            .dimension(resourcesDim)
+            .group(resourcesGroup)
+            .xAxis().ticks(3);
+
+        dc.renderAll(); 
+    }
+    </script>
 </body>
-</html>
