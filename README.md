@@ -10,3 +10,4 @@ in progress
 - build most html from data input such that the number of questions or types of questions / answers doesn't need to be known for the code to work. 
 - play around with different table looks for sentence responses
 - play around with word charts for small 1-3 word responses
+- add reset button to bring selections based to normal!
