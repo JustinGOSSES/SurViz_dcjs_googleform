@@ -1,18 +1,89 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- this link was replaced with the not-quite-identical file below it -->
+ <!--  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.css" /> -->
+  <link rel="stylesheet" type="text/css" href="/CSS/dc_211.css" />
+  <link rel="stylesheet" type="text/css" href="/CSS/style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.4.0-alpha.6/crossfilter.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/JS/data-table.js"></script>
+
 </head>
 
 <body>
-	<div id="topics-array-rows"></div>
+<!-- 	<div id="topics-array-rows"></div>
 	<div id="medium-array-pie"></div>
 	<div id="states-pie"></div>
-	<div id="dates-bars"></div>
+	<div id="dates-bars"></div> -->
+    <div class="row header">
+        <div class="col-sm-12">
+          <h2>Big Data Big Think 2017 Participants</h2>
+          <p>This information was collected to give attendees a view into who is attending, what skills we all have, what concerns we have, and what interesting gaps there might be in terms of what skills are or aren't in the room?</p>
+          <p>
+              <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+          </p>
+      </div>
+    </div>
+    <div class="row surveyRow">
+      <div class="col-sm-3 middle">
+          <div>
+              <p class="question">What is your favorite color?</p>
+          </div>
+          <div id="medium-array-pie"></div>
+      </div>
+      <div class="col-sm-3 middle">
+          <div>
+              <p class="question">Are you attending the 2017 "Big Data Big Think"?</p>
+          </div>
+          <div id="states-pie"></div>
+      </div>
+      <div class="col-sm-4 middle">
+         <div>
+              <p class="question">What are a few of the significant places you look to keep up with trends, technologies, and best practices in data science? </p>
+          </div>
+         <div id="dates-bars"></div>
+      </div>
+    </div>
+    <div class="row surveyRow">
+        <div class="col-sm-5 middle">
+            <div>
+              <p class="question">What technologies have you (or your team) used to do data cleaning, data analysis and modeling, or data visualization? (within last 7 years)</p>
+            </div>
+         <div id="tools-bars"></div>
+        </div>
+        <div class="col-sm-5 middle">
+            <div>
+              <p class="question">Who consumes your data-science-related projects?</p>
+            </div>
+         <div id="consumer-bars"></div>
+        </div>
+    </div>
+    <div class="row surveyRow">
+        <div class="col-sm-12 middle" style='clear:both;'>
+            <table id="dc-data-table">
+                <thead>
+                <tr class="header">
+                    <th>how can we make</th>
+                </tr>
+                </thead>
+            </table>
+        </div> 
+    </div>
+
+
     <script>
+        var things = {
+            questSrt:["role","center","degree","color","team","tasks","learn","consumer","tools","resources","understood","change","person","attend","useful","RIP"],
+            questPairs:{}
+        }
+
+
         d3.csv("/data/BDBT_practice_5.csv", function(data) {
             console.log(data);
             data = splitBasedSmCol(data)
@@ -71,28 +142,16 @@
     </script>
     <script>
     function uponDataLoad(data){
-        console.log("data in second script ",data)
-        var dataOriginal = [
-            {"key":"KEY-1","state":"CA", "topics":["Technology", "Science", "Automotive"], "medium":["paper", "web"], "date":new Date("10/02/2012")},
-            {"key":"KEY-2","state":"CA", "topics":["Health"], "medium":["paper"], "date": new Date("10/05/2012")},
-            {"key":"KEY-3","state":"OR", "topics":["Science"], "medium":["web"], "date":new Date("10/08/2012")},
-            {"key":"KEY-4","state":"WA", "topics":["Automotive", "Science"], "medium":["web"], "date":new Date("10/09/2012")},
-            {"key":"KEY-5","state":"WA", "topics":["Science"], "medium":["tv"], "date":new Date("10/09/2012")},
-            {"key":"KEY-6","state":"WA", "topics": ["Health"], "medium":["tv"], "date":new Date("10/03/2012")},
-            {"key":"KEY-7","state":"CA", "topics":["Technology", "Science", "Automotive"], "medium":["paper", "web"], "date":new Date("10/02/2012")},
-            {"key":"KEY-8","state":"OR", "topics":["Health"], "medium":["web", "tv"], "date": new Date("10/06/2012")},
-            {"key":"KEY-9","state":"OR", "topics":["Technology"], "medium":["paper", "tv"], "date":new Date("10/08/2012")},
-            ];
-
+        // console.log("data in second script ",data)
+        
         var cf = crossfilter(data);
-
         // // tell crossfilter that this dimension isArray=true
         var mediumDim = cf.dimension(function(d){ return d["What_is_your_favorite_color?__[single_word_or_hex_code]"];});
         var mediumGroup = mediumDim.group();
 
         var mediumArrayPieChart = dc.pieChart("#medium-array-pie")
-            .height(100)
-            .width(100)
+            .height(200)
+            .width(200)
             .dimension(mediumDim)
             .group(mediumGroup);
 
@@ -100,8 +159,8 @@
         var statesGroup = statesDim.group();
 
         var statesPieChart = dc.pieChart("#states-pie")
-            .height(100)
-            .width(100)
+            .height(200)
+            .width(200)
             .dimension(statesDim)
             .group(statesGroup);
 
@@ -111,11 +170,60 @@
         var resourcesGroup = resourcesDim.group();
         var resourcesRowChart = dc.rowChart("#dates-bars")
             .renderLabel(true)
-            .height(200)
-            .width(450)
+            .height(300)
+            .width(400)
             .dimension(resourcesDim)
             .group(resourcesGroup)
             .xAxis().ticks(3);
+
+
+        var tools = "What_technologies_have_you_(or_your_team)_used_to_do_data_cleaning,_data_analysis_and_modeling,_or_data_visualization?_(within_last_7_years)_"
+        var toolsDim = cf.dimension(function(d){ return d[tools];},true);
+        var toolsGroup = toolsDim.group();
+        var toolsRowChart = dc.rowChart("#tools-bars")
+            .renderLabel(true)
+            .height(300)
+            .width(400)
+            .dimension(toolsDim)
+            .group(toolsGroup)
+            .xAxis().ticks(3);
+
+        var consumer = "Who_consumes_your_data-science-related_projects?_"
+        var consumerDim = cf.dimension(function(d){ return d[consumer];},true);
+        var consumerGroup = consumerDim.group();
+        var consumerRowChart = dc.rowChart("#consumer-bars")
+            .renderLabel(true)
+            .height(300)
+            .width(400)
+            .dimension(consumerDim)
+            .group(consumerGroup)
+            .xAxis().ticks(3);
+
+
+        var understood = "What_do_you_wish_your_users_understood_about_data_science?__[1_sentence_or_single_word]"
+        var datatable   = dc.dataTable("#understood-table");
+        var understoodDim = cf.dimension(function(d){ return d[understood]});
+        var understoodGroup = understoodDim.group()
+        // datatable
+        //     .width(768)
+        //     .height(480)
+        //     .dimension(understoodDim)
+        //     // .dimension(understoodGroup)
+        //     //.group(function(d) {return d[understood];})
+            
+        //     // .group(understood)
+        //     // dynamic columns creation using an array of closures
+        //     .columns([      
+        //        {
+        //         label: "Wishes"
+        //         format: function(d) {return d[understood]}
+        //        } 
+        //     ])
+
+
+
+
+
 
         dc.renderAll(); 
     }

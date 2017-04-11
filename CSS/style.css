@@ -1,0 +1,30 @@
+div.middle {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: 50%;
+  transform: translateX(+25%);
+} 
+  
+body{
+	padding-left: 5%;
+	padding-right:5%;
+}
+
+div.row.surveyRow{
+	margin-top: 50px;
+}
+
+p.question{
+	font-style: bold;
+	font-size: 18px;
+	margin-left: 20px;
+	min-height: 80px;
+}
+
+div.header{
+	background: #d6d6d6;
+	padding-left: 60px;
+	padding-right: 60px;
+	padding-bottom: 15px;
+}
