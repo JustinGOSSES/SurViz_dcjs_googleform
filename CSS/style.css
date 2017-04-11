@@ -3,12 +3,12 @@ div.middle {
   margin-right: auto;
   position: relative;
   top: 50%;
-  transform: translateX(+25%);
+  /*transform: translateX(+25%);*/
 } 
   
 body{
-	padding-left: 5%;
-	padding-right:5%;
+	padding-left: 10%;
+	padding-right:10%;
 }
 
 div.row.surveyRow{

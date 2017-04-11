@@ -4,23 +4,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- this link was replaced with the not-quite-identical file below it -->
  <!--  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.css" /> -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" type="text/css" href="/CSS/dc_211.css" />
   <link rel="stylesheet" type="text/css" href="/CSS/style.css" />
+
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.4.0-alpha.6/crossfilter.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="/JS/data-table.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
+
+<!--   <script src="/JS/data-table.js"></script> -->
 
 </head>
 
 <body>
-<!-- 	<div id="topics-array-rows"></div>
-	<div id="medium-array-pie"></div>
-	<div id="states-pie"></div>
-	<div id="dates-bars"></div> -->
     <div class="row header">
         <div class="col-sm-12">
           <h2>Big Data Big Think 2017 Participants</h2>
@@ -51,46 +52,88 @@
       </div>
     </div>
     <div class="row surveyRow">
-        <div class="col-sm-5 middle">
+        <div class="col-sm-6 middle">
             <div>
               <p class="question">What technologies have you (or your team) used to do data cleaning, data analysis and modeling, or data visualization? (within last 7 years)</p>
             </div>
          <div id="tools-bars"></div>
         </div>
-        <div class="col-sm-5 middle">
+        <div class="col-sm-6 middle">
             <div>
               <p class="question">Who consumes your data-science-related projects?</p>
             </div>
          <div id="consumer-bars"></div>
         </div>
     </div>
+
     <div class="row surveyRow">
-        <div class="col-sm-12 middle" style='clear:both;'>
-            <table id="dc-data-table">
-                <thead>
-                <tr class="header">
-                    <th>how can we make</th>
-                </tr>
-                </thead>
+        <!-- <div class="col-sm-6 middle" style='clear:both;'> -->
+        <div class="col-sm-6 middle">
+            <table id="understood-table" class="display" cellspacing="0" width="100%">
+              <thead>
+                <th>What do you wish your users understood about data science?</th>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+        </div> 
+        <div class="col-sm-6 middle">
+            <table id="useful-table" class="display" cellspacing="0" width="100%">
+              <thead>
+                <th>How can we make the Big Data Big Think meeting more useful to you?</th>
+              </thead>
+              <tbody>
+              </tbody>
             </table>
         </div> 
     </div>
 
 
     <script>
+
+// https://sheetsu.com/apis/v1.0/46aef0f56ade
+
+// https://docs.google.com/a/nasa.gov/spreadsheets/d/1xptil1jXO6XC2T2OvrsmudYXCBl-7x5LWM4qY-Ock2g/pub?gid=2043183674&single=true&output=csv
+
+//https://spreadsheets.google.com/feeds/1xptil1jXO6XC2T2OvrsmudYXCBl-7x5LWM4qY-Ock2g/od6/public/values?alt=json-in-script&callback=
+
+        // $.getJSON("https://docs.google.com/a/nasa.gov/spreadsheets/d/1xptil1jXO6XC2T2OvrsmudYXCBl-7x5LWM4qY-Ock2g/pub?gid=2043183674&single=true&output=json", function(data){
+        //     console.log(data);
+        //     data = splitBasedSmCol(data)
+        //     data = takeOutSpacesinKeys(data)
+        //     console.log("processed into arrays hopefully! ",data);
+        //     complete: uponDataLoad(data)
+        // })
+        url = "https://docs.google.com/a/nasa.gov/spreadsheets/d/1xptil1jXO6XC2T2OvrsmudYXCBl-7x5LWM4qY-Ock2g/pub?gid=2043183674&single=true&output=csv"
+        $.ajax({
+            url : url,
+            type : 'GET',
+            dataType : 'csv',
+            success : function(res, status){
+                console.log('status : ' + status);
+                console.log(res);
+            },
+            error : function(res, status, error){
+                console.log('status : ' + status);
+                console.log(res);
+                console.log(error);
+            }
+        });
+
+
         var things = {
             questSrt:["role","center","degree","color","team","tasks","learn","consumer","tools","resources","understood","change","person","attend","useful","RIP"],
             questPairs:{}
         }
 
 
-        d3.csv("/data/BDBT_practice_5.csv", function(data) {
-            console.log(data);
-            data = splitBasedSmCol(data)
-            data = takeOutSpacesinKeys(data)
-            console.log("processed into arrays hopefully! ",data);
-            complete: uponDataLoad(data)
-        });
+        // d3.csv("/data/BDBT_practice_5.csv", function(data) {
+        //     console.log(data);
+        //     data = splitBasedSmCol(data)
+        //     data = takeOutSpacesinKeys(data)
+        //     console.log("processed into arrays hopefully! ",data);
+        //     complete: uponDataLoad(data)
+        // });
 
         /// function that splits any string in json that contains a ; into an array
         function splitBasedSmCol(data){
@@ -201,26 +244,90 @@
 
 
         var understood = "What_do_you_wish_your_users_understood_about_data_science?__[1_sentence_or_single_word]"
-        var datatable   = dc.dataTable("#understood-table");
+        
         var understoodDim = cf.dimension(function(d){ return d[understood]});
         var understoodGroup = understoodDim.group()
+        // var datatable   = dc.dataTable("#understood-table");
+        
+        // var datatable = $("#understood-table").dataTable({
+        //         "Paginate": false,
+        //         "LengthChange": false,
+        //         "Filter": false,
+        //         "Sort": true,
+        //         "Info": false,
+        //         "AutoWidth": false,
+        //         "DeferRender": true,
+        //         // "Data": understoodDim.top(Infinity),
+        //         "Data": understoodDim,
+        //         "Destroy": true,
+        //         "Columns": [
+        //             // function(d) {return d[understood]}
+        //             {data:understood, DefaultContent:""}
+        //             // { "data": understood, "sDefaultContent": ""}
+        //             // { "mData": "users", "sDefaultContent": " " }
+        //         ]
+        //     });
+
+        //// a function that fills out the rows of a table based on table_id which includes # and a single dimension, which should be a key as a string with underscores filled in
+        function makeSingleTable(table_id,table_dim){
+            for (each in data){
+                console.log("each = ",each," and data[each] = ",data[each], " and table_dim is ",table_dim)
+                console.log("data[each][table_dim]", data[each][table_dim])
+                $(table_id+" tbody").append("<tr><td>"+data[each][table_dim]+"</td></tr>");
+                // $("#understoodTableBody").append("<tr>stuff here</tr>");
+            }
+            $(table_id).DataTable();
+
+            // for (each in [0,1,2,3,4,5,6]){
+            //     console.log("each is", each)
+            //     $('#understoodTableBody').append("<tr><td>"+"each"+"</td></tr>");
+            // }
+        }
+        
+        var useful = "How_can_we_make_the_Big_Data_Big_Think_meeting_more_useful_to_you?_[optional]"
+
+        makeSingleTable("#understood-table",understood)
+        makeSingleTable("#useful-table",useful)
+
+
+
         // datatable
-        //     .width(768)
-        //     .height(480)
+        //     .width(800)
+        //     .height(400)
         //     .dimension(understoodDim)
         //     // .dimension(understoodGroup)
         //     //.group(function(d) {return d[understood];})
+        //     // .group(function(d) {return d[understood];})
             
         //     // .group(understood)
         //     // dynamic columns creation using an array of closures
         //     .columns([      
-        //        {
-        //         label: "Wishes"
         //         format: function(d) {return d[understood]}
-        //        } 
         //     ])
 
 
+
+        // // var dataDim = cf.dimension(function(d) {return d.a;});
+        // var understoodDim = cf.dimension(function(d){ return d[understood]});
+        // var dataTable = dc.dataTable("#understood-table")
+        //   .
+        //   .columns([
+        //     function(d) {
+        //       return d[understood];
+        //     }
+        //   ]);
+
+
+        // $('#understood-table').on('click', '.data-table-col', function() {
+        //     var column = $(this).attr("data-col");
+        //     understoodDim.dispose();
+        //     understoodDim = cf.dimension(function(d) {return d[column];});
+        //     dataTable.dimension(understoodDim)
+        //     dataTable.sortBy(function(d) {
+        //     return d[column];
+        //     });
+        // dataTable.redraw();
+        // });
 
 
 
