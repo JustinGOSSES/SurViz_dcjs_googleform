@@ -7,8 +7,6 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" type="text/css" href="/CSS/dc_211.css" />
   <link rel="stylesheet" type="text/css" href="/CSS/style.css" />
-
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.4.0-alpha.6/crossfilter.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.js"></script>
@@ -16,9 +14,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
-
-<!--   <script src="/JS/data-table.js"></script> -->
-
 </head>
 
 <body>
@@ -31,56 +26,120 @@
           </p>
       </div>
     </div>
+
     <div class="row surveyRow">
-      <div class="col-sm-3 middle">
+      <div class="col-sm-4 middle">
           <div>
-              <p class="question">What is your favorite color?</p>
+              <p class="question">Which of these best describes your involvement with big data, data science, etc?</p>
           </div>
-          <div id="medium-array-pie"></div>
+          <div id="role-bars"></div>
       </div>
-      <div class="col-sm-3 middle">
+      <div class="col-sm-4 middle">
           <div>
-              <p class="question">Are you attending the 2017 "Big Data Big Think"?</p>
+              <p class="question">What center are you affiliated with?</p>
           </div>
-          <div id="states-pie"></div>
+          <div class="circle_right" id="center-pie"></div>
       </div>
       <div class="col-sm-4 middle">
          <div>
-              <p class="question">What are a few of the significant places you look to keep up with trends, technologies, and best practices in data science? </p>
+              <p class="question">What are your degree(s) in?</p>
           </div>
-         <div id="dates-bars"></div>
+         <div id="degree-bars"></div>
       </div>
     </div>
+
     <div class="row surveyRow">
-        <div class="col-sm-6 middle">
-            <div>
-              <p class="question">What technologies have you (or your team) used to do data cleaning, data analysis and modeling, or data visualization? (within last 7 years)</p>
-            </div>
-         <div id="tools-bars"></div>
-        </div>
-        <div class="col-sm-6 middle">
+      <div class="col-sm-4 middle">
+          <div>
+              <p class="question">What is your favorite color?</p>
+          </div>
+          <div class="circle_right" id="medium-array-pie"></div>
+      </div>
+      <div class="col-sm-4 middle">
+          <div>
+              <p class="question">Are you on a team that focuses on data science or are you embedded in another group that happens to do some data science?</p>
+          </div>
+          <div id="team-bars"></div>
+      </div>
+      <div class="col-sm-4 middle">
+         <div>
+              <p class="question">Which of these is your organization using in some form? [select all that apply]</p>
+          </div>
+         <div id="tasks-bars"></div>
+      </div>
+    </div>
+
+    <div class="row surveyRow">
+      <div class="col-sm-4 middle">
+          <div>
+              <p class="question">Is there an area you'd like to learn about, do more with in the future, or improve you/your team's skills in? [select all that apply]</p>
+          </div>
+          <div id="learn-bars"></div>
+      </div>
+      <div class="col-sm-4 middle">
             <div>
               <p class="question">Who consumes your data-science-related projects?</p>
             </div>
          <div id="consumer-bars"></div>
-        </div>
+      </div>
+      <div class="col-sm-4 middle">
+            <div>
+              <p class="question">What technologies have you (or your team) used to do data cleaning, data analysis and modeling, or data visualization? (within last 7 years)</p>
+            </div>
+            <div id="tools-bars"></div>
+      </div>
     </div>
 
     <div class="row surveyRow">
-        <!-- <div class="col-sm-6 middle" style='clear:both;'> -->
-        <div class="col-sm-6 middle">
+      <div class="col-sm-4 middle">
+         <div>
+              <p class="question">What are a few of the significant places you look to keep up with trends, technologies, and best practices in data science? </p>
+          </div>
+         <div id="resource-bars"></div>
+      </div>
+      <div class="col-sm-4 middle">
+            <p class="question">What do you wish your users understood about data science?</p>
             <table id="understood-table" class="display" cellspacing="0" width="100%">
               <thead>
-                <th>What do you wish your users understood about data science?</th>
+                <th></th>
+                <!-- <th>What do you wish your users understood about data science?</th>
+ -->              </thead>
+              <tbody>
+              </tbody>
+            </table>
+      </div> 
+      <div class="col-sm-4 middle">
+            <div>
+              <p class="question">If you could change two things about your data science work, what would they be? </p>
+            </div>
+            <div id="change-bars"></div>
+      </div>
+    </div>
+
+    <div class="row surveyRow">
+        <div class="col-sm-4 middle">
+          <div>
+              <p class="question">Are you attending the 2017 "Big Data Big Think"?</p>
+          </div>
+          <div class="circle_right" id="attend-pie"></div>
+        </div>
+        <div class="col-sm-4 middle">
+        <p class="question">How can we make the Big Data Big Think meeting more useful to you?</p>
+            <table id="useful-table" class="display" cellspacing="0" width="100%">
+              <thead>
+              <th></th>
+                <!-- <th>How can we make the Big Data Big Think meeting more useful to you?</th> -->
               </thead>
               <tbody>
               </tbody>
             </table>
         </div> 
-        <div class="col-sm-6 middle">
-            <table id="useful-table" class="display" cellspacing="0" width="100%">
+        <div class="col-sm-4 middle">
+            <p class="question">Is there anything you want to say that didn't fit in the survey above? [optional]</p>
+            <table id="rip-table" class="display" cellspacing="0" width="100%">
               <thead>
-                <th>How can we make the Big Data Big Think meeting more useful to you?</th>
+                <th></th>
+                <!-- <th>Is there anything you want to say that didn't fit in the survey above? [optional]</th> -->
               </thead>
               <tbody>
               </tbody>
@@ -88,52 +147,49 @@
         </div> 
     </div>
 
+    <div class="row surveyRow gap">
+    </div>
+    <div class="row footer">
+        <div class="col-sm-12">
+          <h4>About</h4>
+          <p>This data visualization was created by Justin Gosses of the OCIO data analytics team. Questions were developed by Yulan Lin, Brian Thomas, Andrew Adrian, Anthony Buom..., and Nicholas Skytland. If you would like....... say other things here.........</p>
+      </div>
+    </div>
 
     <script>
 
-// https://sheetsu.com/apis/v1.0/46aef0f56ade
-
-// https://docs.google.com/a/nasa.gov/spreadsheets/d/1xptil1jXO6XC2T2OvrsmudYXCBl-7x5LWM4qY-Ock2g/pub?gid=2043183674&single=true&output=csv
-
-//https://spreadsheets.google.com/feeds/1xptil1jXO6XC2T2OvrsmudYXCBl-7x5LWM4qY-Ock2g/od6/public/values?alt=json-in-script&callback=
-
-        // $.getJSON("https://docs.google.com/a/nasa.gov/spreadsheets/d/1xptil1jXO6XC2T2OvrsmudYXCBl-7x5LWM4qY-Ock2g/pub?gid=2043183674&single=true&output=json", function(data){
-        //     console.log(data);
-        //     data = splitBasedSmCol(data)
-        //     data = takeOutSpacesinKeys(data)
-        //     console.log("processed into arrays hopefully! ",data);
-        //     complete: uponDataLoad(data)
-        // })
-        url = "https://docs.google.com/a/nasa.gov/spreadsheets/d/1xptil1jXO6XC2T2OvrsmudYXCBl-7x5LWM4qY-Ock2g/pub?gid=2043183674&single=true&output=csv"
-        $.ajax({
-            url : url,
-            type : 'GET',
-            dataType : 'csv',
-            success : function(res, status){
-                console.log('status : ' + status);
-                console.log(res);
-            },
-            error : function(res, status, error){
-                console.log('status : ' + status);
-                console.log(res);
-                console.log(error);
-            }
-        });
-
-
         var things = {
             questSrt:["role","center","degree","color","team","tasks","learn","consumer","tools","resources","understood","change","person","attend","useful","RIP"],
-            questPairs:{}
+            questPairs:{
+                // "q_0":{"chartT":"rowChart","question":"role"},
+                "q_1":{"chartT":"rowChart","question":"role"},
+                "q_2":{"chartT":"pieChart","question":"center"},
+                "q_3":{"chartT":"rowChart","question":"degree"},
+                "q_4":{"chartT":"pieChart","question":"color"},
+                "q_5":{"chartT":"pieChart","question":"team"},
+                "q_6":{"chartT":"tasks","question":"rowChart"},
+                "q_7":{"chartT":"learns","question":"rowChart"},
+                "q_8":{"chartT":"consumer","question":"rowChart"},
+                "q_9":{"chartT":"tools","question":"rowChart"},
+                "q_10":{"chartT":"resources","question":"rowChart"},
+                "q_11":{"chartT":"understood","question":"table"},
+                "q_12":{"chartT":"change","question":"rowChart"},
+                // "q_13":{"chartT":"attend","question":"pieChart"},
+                "q_14":{"chartT":"attend","question":"pieChart"},
+                "q_15":{"chartT":"useful","question":"table"},
+                "q_16":{"chartT":"RIP","question":"table"},
+            },
+            "fav_colors_array":[]
         }
 
-
-        // d3.csv("/data/BDBT_practice_5.csv", function(data) {
-        //     console.log(data);
-        //     data = splitBasedSmCol(data)
-        //     data = takeOutSpacesinKeys(data)
-        //     console.log("processed into arrays hopefully! ",data);
-        //     complete: uponDataLoad(data)
-        // });
+// /data/BDBT_practice_5.csv
+        d3.csv("/data/BigDataBigThink2017Survey_20170411_4.csv", function(data) {
+            console.log(data);
+            data = splitBasedSmCol(data)
+            data = takeOutSpacesinKeys(data)
+            console.log("processed into arrays hopefully! ",data);
+            complete: uponDataLoad(data)
+        });
 
         /// function that splits any string in json that contains a ; into an array
         function splitBasedSmCol(data){
@@ -155,8 +211,17 @@
                         console.log("row",row)
                         processedData[row_number][keys[i]] = newValue
                     }
+                    //// makes list of colors in favorite colors question if present
+                    
+                    if (keys[i] === "What is your favorite color?  [single word or hex code]"){
+                        console.log("color keys[i] = ",keys[i])
+                        things.fav_colors_array.push(values[i])
+                    }
+                    //// end
                 }
+                things.fav_colors_array.sort()
             });
+            console.log("color things.fav_colors_array ",things.fav_colors_array)
             return processedData
         }
         function takeOutSpacesinKeys(data){
@@ -169,9 +234,6 @@
                 keys = Object.keys(row)
                 values = Object.values(row)
                 for (i = 0; i < keys.length; i++) {  
-                    //// a.Prop3 = a.Prop1;
-                    //// delete a.Prop1;
-                    //// var res = str.replace("Microsoft", "W3Schools");
                     newKeyString = keys[i].replace(/ /g ,"_")
                     console.log("newKeyString ",newKeyString)
                     processedData[row_number][newKeyString] = processedData[row_number][keys[i]]
@@ -186,37 +248,135 @@
     <script>
     function uponDataLoad(data){
         // console.log("data in second script ",data)
-        
         var cf = crossfilter(data);
-        // // tell crossfilter that this dimension isArray=true
-        var mediumDim = cf.dimension(function(d){ return d["What_is_your_favorite_color?__[single_word_or_hex_code]"];});
-        var mediumGroup = mediumDim.group();
 
-        var mediumArrayPieChart = dc.pieChart("#medium-array-pie")
-            .height(200)
-            .width(200)
-            .dimension(mediumDim)
-            .group(mediumGroup);
+        // var colorScale = d3.scale.ordinal().domain(["#000000", "#003366", "#008080","#9CC1F0","blue","purple"])
+        //                            .range(["#000000", "#003366", "#008080","#9CC1F0","blue","purple"]);
+
+
+        //// role row chart
+        var role = "Which_of_these_best_describes_your_involvement_with_big_data,_data_science,_etc?_"
+        var roleDim = cf.dimension(function(d){ return d[role];});
+        var roleGroup = roleDim.group();
+        var roleRowChart = dc.rowChart("#role-bars")
+            .renderLabel(true)
+            .height(300)
+            .width(400)
+            .dimension(roleDim)
+            .group(roleGroup)
+            .xAxis().ticks(3);
+
+        //// center pie chart
+        var centerDim = cf.dimension(function(d){ return d["What_center_are_you_affiliated_with?"];});
+        var centerGroup = centerDim.group();
+        var centerArrayPieChart = dc.pieChart("#center-pie")
+            .height(250)
+            .width(250)
+            .dimension(centerDim)
+            .group(centerGroup);
+
+        //// degree row chart
+        var degree = "What_are_your_degree(s)_in?_"
+        var degreeDim = cf.dimension(function(d){ return d[degree];});
+        var degreeGroup = degreeDim.group();
+        var degreeRowChart = dc.rowChart("#degree-bars")
+            .renderLabel(true)
+            .height(300)
+            .width(400)
+            .dimension(degreeDim)
+            .group(degreeGroup)
+            .xAxis().ticks(3);
+
+        //// degree row chart
+        var team = "Are_you_on_a_team_that_focuses_on_data_science_or_are_you_embedded_in_another_group_that_happens_to_do_some_data_science?"
+        var teamDim = cf.dimension(function(d){ return d[team];});
+        var teamGroup = teamDim.group();
+        var teamRowChart = dc.rowChart("#team-bars")
+            .renderLabel(true)
+            .height(300)
+            .width(400)
+            .dimension(teamDim)
+            .group(teamGroup)
+            .xAxis().ticks(3);
+
+        //// tasks row chart
+        var tasks = "Which_of_these_is_your_organization_using_in_some_form?_[select_all_that_apply]"
+        var tasksDim = cf.dimension(function(d){ return d[tasks];},true);
+        var tasksGroup = tasksDim.group();
+        var tasksRowChart = dc.rowChart("#tasks-bars")
+            .renderLabel(true)
+            .height(300)
+            .width(400)
+            .dimension(tasksDim)
+            .group(tasksGroup)
+            .xAxis().ticks(3);
+
+        var learn = "Is_there_an_area_you'd_like_to_learn_about,_do_more_with_in_the_future,_or_improve_you/your_team's_skills_in?_[select_all_that_apply]"
+        var learnDim = cf.dimension(function(d){ return d[learn];},true);
+        var learnGroup = learnDim.group();
+        var learnRowChart = dc.rowChart("#learn-bars")
+            .renderLabel(true)
+            .height(300)
+            .width(400)
+            .dimension(learnDim)
+            .group(learnGroup)
+            .xAxis().ticks(3);
+
+        var change = "If_you_could_change_two_things_about_your_data_science_work,_what_would_they_be?_"
+        var changeDim = cf.dimension(function(d){ return d[change];},true);
+        var changeGroup = changeDim.group();
+        var changeRowChart = dc.rowChart("#change-bars")
+            .renderLabel(true)
+            .height(300)
+            .width(400)
+            .dimension(changeDim)
+            .group(changeGroup)
+            .xAxis().ticks(3);
+
+        //// attend pie chart
+        var attend = 'Are_you_attending_the_2017_"Big_Data_Big_Think"?'
+        var attendDim = cf.dimension(function(d){ return d[attend];});
+        var attendGroup = attendDim.group();
+        var attendArrayPieChart = dc.pieChart("#attend-pie")
+            .height(250)
+            .width(250)
+            .dimension(attendDim)
+            .group(attendGroup);
+
+
+        // // tell crossfilter that this dimension isArray=true
+        var color = "What_is_your_favorite_color?__[single_word_or_hex_code]"
+        var colorDim = cf.dimension(function(d){ 
+            console.log("things.fav_colors_array ",things.fav_colors_array)
+            return d[color];});
+        var colorGroup = colorDim.group();
+        var colorArrayPieChart = dc.pieChart("#medium-array-pie")
+            .height(250)
+            .width(250)
+            .dimension(colorDim)
+            .group(colorGroup)
+            .ordinalColors(things.fav_colors_array)
 
         var statesDim = cf.dimension(function(d){ return d['Are_you_attending_the_2017_"Big_Data_Big_Think"?'];});
         var statesGroup = statesDim.group();
 
         var statesPieChart = dc.pieChart("#states-pie")
-            .height(200)
-            .width(200)
+            .height(250)
+            .width(250)
             .dimension(statesDim)
             .group(statesGroup);
 
         // leave crossfilter isArray default (false)
-        var resourcesDim = cf.dimension(function(d){ return d["What_are_a_few_of_the_significant_places_you_look_to_keep_up_with_trends,_technologies,_and_best_practices_in_data_science?_"];},true);
+        
         var resource = "What_are_a_few_of_the_significant_places_you_look_to_keep_up_with_trends,_technologies,_and_best_practices_in_data_science?_"
-        var resourcesGroup = resourcesDim.group();
-        var resourcesRowChart = dc.rowChart("#dates-bars")
+        var resourceDim = cf.dimension(function(d){ return d[resource];},true);
+        var resourceGroup = resourceDim.group();
+        var resourceRowChart = dc.rowChart("#resource-bars")
             .renderLabel(true)
             .height(300)
             .width(400)
-            .dimension(resourcesDim)
-            .group(resourcesGroup)
+            .dimension(resourceDim)
+            .group(resourceGroup)
             .xAxis().ticks(3);
 
 
@@ -242,31 +402,10 @@
             .group(consumerGroup)
             .xAxis().ticks(3);
 
-
         var understood = "What_do_you_wish_your_users_understood_about_data_science?__[1_sentence_or_single_word]"
-        
         var understoodDim = cf.dimension(function(d){ return d[understood]});
         var understoodGroup = understoodDim.group()
-        // var datatable   = dc.dataTable("#understood-table");
         
-        // var datatable = $("#understood-table").dataTable({
-        //         "Paginate": false,
-        //         "LengthChange": false,
-        //         "Filter": false,
-        //         "Sort": true,
-        //         "Info": false,
-        //         "AutoWidth": false,
-        //         "DeferRender": true,
-        //         // "Data": understoodDim.top(Infinity),
-        //         "Data": understoodDim,
-        //         "Destroy": true,
-        //         "Columns": [
-        //             // function(d) {return d[understood]}
-        //             {data:understood, DefaultContent:""}
-        //             // { "data": understood, "sDefaultContent": ""}
-        //             // { "mData": "users", "sDefaultContent": " " }
-        //         ]
-        //     });
 
         //// a function that fills out the rows of a table based on table_id which includes # and a single dimension, which should be a key as a string with underscores filled in
         function makeSingleTable(table_id,table_dim){
@@ -274,62 +413,24 @@
                 console.log("each = ",each," and data[each] = ",data[each], " and table_dim is ",table_dim)
                 console.log("data[each][table_dim]", data[each][table_dim])
                 $(table_id+" tbody").append("<tr><td>"+data[each][table_dim]+"</td></tr>");
-                // $("#understoodTableBody").append("<tr>stuff here</tr>");
             }
-            $(table_id).DataTable();
-
-            // for (each in [0,1,2,3,4,5,6]){
-            //     console.log("each is", each)
-            //     $('#understoodTableBody').append("<tr><td>"+"each"+"</td></tr>");
-            // }
+            $(table_id).DataTable({ 
+                "ordering": false,
+                // "search":false,
+                "bLengthChange": false,
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false
+            });
         }
         
         var useful = "How_can_we_make_the_Big_Data_Big_Think_meeting_more_useful_to_you?_[optional]"
+        var rip = "Is_there_anything_you_want_to_say_that_didn't_fit_in_the_survey_above?_[optional]"
 
         makeSingleTable("#understood-table",understood)
         makeSingleTable("#useful-table",useful)
-
-
-
-        // datatable
-        //     .width(800)
-        //     .height(400)
-        //     .dimension(understoodDim)
-        //     // .dimension(understoodGroup)
-        //     //.group(function(d) {return d[understood];})
-        //     // .group(function(d) {return d[understood];})
-            
-        //     // .group(understood)
-        //     // dynamic columns creation using an array of closures
-        //     .columns([      
-        //         format: function(d) {return d[understood]}
-        //     ])
-
-
-
-        // // var dataDim = cf.dimension(function(d) {return d.a;});
-        // var understoodDim = cf.dimension(function(d){ return d[understood]});
-        // var dataTable = dc.dataTable("#understood-table")
-        //   .
-        //   .columns([
-        //     function(d) {
-        //       return d[understood];
-        //     }
-        //   ]);
-
-
-        // $('#understood-table').on('click', '.data-table-col', function() {
-        //     var column = $(this).attr("data-col");
-        //     understoodDim.dispose();
-        //     understoodDim = cf.dimension(function(d) {return d[column];});
-        //     dataTable.dimension(understoodDim)
-        //     dataTable.sortBy(function(d) {
-        //     return d[column];
-        //     });
-        // dataTable.redraw();
-        // });
-
-
+        makeSingleTable("#rip-table",rip)
 
 
         dc.renderAll(); 
