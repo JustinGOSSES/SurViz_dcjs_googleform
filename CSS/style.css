@@ -12,6 +12,20 @@ div.surveyRow div.middle{
     border-left: thick #2db79c;*/
 }
   
+h2.center{
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+}
+a.center {
+	margin-right:70px;
+}
+div.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 body{
 	padding-left: 5%;
 	padding-right:5%;
