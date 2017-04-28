@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.4.0-alpha.6/crossfilter.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.js"></script>
+</head>
+
+<body>
+	<div id="topics-array-rows"></div>
+	<div id="medium-array-pie"></div>
+	<div id="states-pie"></div>
+	<div id="dates-bars"></div>
+    <script>
+        d3.csv("/data/BigDataBigThink2017SurveyB.csv", function(data) {
+            console.log(data);
+            data = splitBasedSmCol(data)
+            console.log("processed into arrays hopefully! ",data);
+            complete: uponDataLoad(data)
+        });
+
+        /// function that splits any string in json that contains a ; into an array
+        function splitBasedSmCol(data){
+            //// for each object, check if each value in key value pair is string, if string check if a ; is present,
+            //// if present ; present in string, make an array and split string into array items on ;
+            //// replace string with array in that value place
+            //// str.split(" ")
+            var processedData = data
+            var row_number = -1
+            processedData.forEach(function(row){
+                row_number += 1
+                keys = Object.keys(row)
+                values = Object.values(row)
+                for (i = 0; i < values.length; i++) {  
+                    if (typeof values[i] === 'string' && values[i].indexOf(';') >-1){
+                        newValue = values[i].split(";")
+                        console.log("newValue",newValue)
+                        console.log("processedData",processedData)
+                        console.log("row",row)
+                        processedData[row_number][keys[i]] = newValue
+                    }
+                }
+            });
+            return processedData
+        }
+
+
+    </script>
+    <script>
+    function uponDataLoad(data){
+        console.log("data in second script ",data)
+        var data = [
+            {"key":"KEY-1","state":"CA", "topics":["Technology", "Science", "Automotive"], "medium":["paper", "web"], "date":new Date("10/02/2012")},
+            {"key":"KEY-2","state":"CA", "topics":["Health"], "medium":["paper"], "date": new Date("10/05/2012")},
+            {"key":"KEY-3","state":"OR", "topics":["Science"], "medium":["web"], "date":new Date("10/08/2012")},
+            {"key":"KEY-4","state":"WA", "topics":["Automotive", "Science"], "medium":["web"], "date":new Date("10/09/2012")},
+            {"key":"KEY-5","state":"WA", "topics":["Science"], "medium":["tv"], "date":new Date("10/09/2012")},
+            {"key":"KEY-6","state":"WA", "topics": ["Health"], "medium":["tv"], "date":new Date("10/03/2012")},
+            {"key":"KEY-7","state":"CA", "topics":["Technology", "Science", "Automotive"], "medium":["paper", "web"], "date":new Date("10/02/2012")},
+            {"key":"KEY-8","state":"OR", "topics":["Health"], "medium":["web", "tv"], "date": new Date("10/06/2012")},
+            {"key":"KEY-9","state":"OR", "topics":["Technology"], "medium":["paper", "tv"], "date":new Date("10/08/2012")},
+            ];
+
+        var cf = crossfilter(data);
+
+        // tell crossfilter that this dimension isArray=true
+        var topicsDim = cf.dimension(function(d){ return d.topics;}, true);
+        var topicsGroup = topicsDim.group();
+
+        var topicsArrayRowChart = dc.rowChart("#topics-array-rows")
+            .renderLabel(true)
+            .height(200)
+            .width(250)
+            .dimension(topicsDim)
+            .group(topicsGroup)
+            .cap(3)
+            .ordering(function(d){return -d.value;})
+            .xAxis().ticks(3);
+
+        // tell crossfilter that this dimension isArray=true
+        var mediumDim = cf.dimension(function(d){ return d.medium;}, true);
+        var mediumGroup = mediumDim.group();
+
+        var mediumArrayPieChart = dc.pieChart("#medium-array-pie")
+            .height(100)
+            .width(100)
+            .dimension(mediumDim)
+            .group(mediumGroup);
+
+        // leave crossfilter isArray default (false)
+        var statesDim = cf.dimension(function(d){ return d.state;});
+        var stateGroup = statesDim.group();
+
+        var statesPieChart = dc.pieChart("#states-pie")
+            .height(100)
+            .width(100)
+            .dimension(statesDim)
+            .group(stateGroup);
+
+        // leave crossfilter isArray default (false)
+        var datesDim = cf.dimension(function(d){ return d.date;});
+        var datesGroup = datesDim.group();
+
+        var datesBarChart = dc.barChart("#dates-bars")
+            .width(400)
+            .height(200)
+            .transitionDuration(800)
+            .margins({top: 10, right: 50, bottom: 30, left: 40})
+            .dimension(datesDim)
+            .group(datesGroup)  
+            .x(d3.time.scale().domain([new Date(2012, 9, 1), new Date(2012, 9, 11)]))
+            .xUnits(d3.time.days)
+            .centerBar(true)
+            .renderHorizontalGridLines(true)       
+            .brushOn(true)
+            .xAxis().tickFormat(d3.time.format('%b %d'));
+    
+        dc.renderAll(); 
+    }
+    
+    </script>
+
+</body>

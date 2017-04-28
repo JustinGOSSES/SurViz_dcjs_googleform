@@ -128,9 +128,8 @@
         </div>
     </div>
 
-<!--     <div class="row surveyRow"> -->
-        
-      <!--   <div class="col-sm-4 middle">
+    <div class="row surveyRow">
+        <div class="col-sm-12 middle">
         <p class="question">How can we make the Big Data Big Think meeting more useful to you?</p>
             <table id="useful-table" class="display" cellspacing="0" width="100%">
               <thead>
@@ -140,7 +139,7 @@
               </tbody>
             </table>
         </div> 
-        <div class="col-sm-4 middle">
+        <div class="col-sm-12 middle">
             <p class="question">Is there anything you want to say that didn't fit in the survey above? [optional]</p>
             <table id="rip-table" class="display" cellspacing="0" width="100%">
               <thead>
@@ -149,8 +148,8 @@
               <tbody>
               </tbody>
             </table>
-        </div>  -->
-         <!-- <div class="col-sm-12 middle">
+        </div> 
+         <div class="col-sm-12 middle">
             <p class="question">What do you wish your users understood about data science?</p>
             <table id="understood-table" class="display" cellspacing="0" width="100%">
                <thead>
@@ -159,8 +158,8 @@
               <tbody>
               </tbody>
             </table>
-         </div>  -->
-   <!--  </div> -->
+         </div> 
+    </div>
 
     <div class="row surveyRow gap">
     </div>
@@ -210,6 +209,18 @@
             complete: uponDataLoad(data)
         });
 
+        //// function to only return unique items in an array
+        function uniq(a) {
+          var prims = {"boolean":{},"number":{},"string":{}},objs = [];
+          return a.filter(function(item) {
+            var type = typeof item;
+            if(type in prims)
+              return prims[type].hasOwnProperty(item) ? false :  (prims[type][item] = true);
+            else 
+              return objs.indexOf(item) >= 0 ? false : objs.push(item);
+          });
+        }
+
         /// function that splits any string in json that contains a ; into an array
         function splitBasedSmCol(data){
             //// for each object, check if each value in key value pair is string, if string check if a ; is present,
@@ -221,26 +232,33 @@
             processedData.forEach(function(row){
                 row_number += 1
                 keys = Object.keys(row)
-                values = Object.values(row)
+                values = Object.keys(row).map(function(key){
+                  return row[key];
+                });
                 for (i = 0; i < values.length; i++) {  
                     if (typeof values[i] === 'string' && values[i].indexOf(';') >-1){
                         newValue = values[i].split(";")
-                        console.log("newValue",newValue)
-                        console.log("processedData",processedData)
-                        console.log("row",row)
+                        //console.log("newValue",newValue)
+                        //console.log("processedData",processedData)
+                        //console.log("row",row)
                         processedData[row_number][keys[i]] = newValue
                     }
+                    if (typeof values[i] === 'string' && values[i].indexOf(';') < 1){
+                      processedData[row_number][keys[i]] = [values[i]]
+                    }
+
                     //// makes list of colors in favorite colors question if present
                     
                     if (keys[i] === "What is your favorite color?  [single word or hex code]"){
-                        console.log("color keys[i] = ",keys[i])
+                        //console.log("color keys[i] = ",keys[i])
                         things.fav_colors_array.push(values[i])
                     }
                     //// end
                 }
                 things.fav_colors_array.sort()
+                things.fav_colors_array = uniq(things.fav_colors_array)
             });
-            console.log("color things.fav_colors_array ",things.fav_colors_array)
+            //console.log("color things.fav_colors_array ",things.fav_colors_array)
             return processedData
         }
         function takeOutSpacesinKeys(data){
