@@ -5,7 +5,7 @@
 ## Goal
 A project you can drop any google form response csv into and an interactive website running dc.js on the charts will be produced.
 
-# Why 
+## Why 
 Most of the times people look at survey results, the results for each question is only grouped at one level, everyone. Using DC.js it comes super easy to also see the results for each question filtered by answers by every other question. For example, if question 1 is "are you tall" and question 2 is "are you old", you can see the results for "are you old" for only those that answer "yes, I am tall". 
 
 ## About
