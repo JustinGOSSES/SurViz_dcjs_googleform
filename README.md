@@ -5,6 +5,9 @@
 ## Goal
 A project you can drop any google form response csv into and an interactive website running dc.js on the charts will be produced.
 
+# Why 
+Most of the times people look at survey results, the results for each question is only grouped at one level, everyone. Using DC.js it comes super easy to also see the results for each question filtered by answers by every other question. For example, if question 1 is "are you tall" and question 2 is "are you old", you can see the results for "are you old" for only those that answer "yes, I am tall". 
+
 ## About
 This is a series of charts representing questions of a survey. All the charts are linked. When the user clicks on one bar or slice of a pie chart, it will filter all the other charts. Currently, long-form fill-in-the-blank ansers are not linked to the rest of the charts. This could be easily changed.
 
