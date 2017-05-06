@@ -19,11 +19,9 @@
 <body>
     <div class="row header">
         <div class="col-sm-12">
-          <h2 class="center">Big Data Big Think 2017 Participants</h2>
-            <p>This information was collected to give participants insight into the range of people and skills in the room. What do they want to learn? What categories of data analytics do they work on? Are there any interesting gaps in terms of skill areas not present? How do they keep up with new technologies?</p>
-         
+          <h2 class="center">Some Survey Title Goes Here</h2>
+            <p>This information was collected to give participants insight into the range of blank and blank in the room. What do they want to learn? What categories of data analytics do they work on? Are there any interesting gaps in terms of skill areas not present? How do they keep up with new technologies?</p>
         </div>
-      
     </div>
     <div class="row">
         <!-- <div class="col-sm-4">
@@ -167,46 +165,19 @@
         <div class="col-sm-12">
           <h4>About</h4>
           <p>This data visualization was created with open-source JavaScript libraries, including: <a href="https://dc-js.github.io/dc.js/">DC.js</a>, <a href="https://github.com/crossfilter/crossfilter">Crossfilter.js</a>, and <a href="https://d3js.org/">D3.js</a>. D3.js creates the charts, DC.js handles the dimensional filtering between charts, and crossfilter creates the links between each data dimension.</p>
-          <p>The code for this data visualization will be soon available on github. It will be easily adaptable to any google forms results sheet.</p>
-          <p>This data visualization was created by <a href="mailto:justin.c.gosses@nasa.gov">Justin Gosses</a> of the OCIO data analytics team. Questions were developed by Yulan Lin, Brian Thomas, Andrew Adrian, Anthony Buonomo, and Nicholas Skytland. If you would like to discuss how your organization's data could be visualized, please contact <a href="mailto:nicholas.g.skytland@nasa.gov">Nick Skytland</a></p>
       </div>
     </div>
 
+    <script src="/JS/questions.js"></script>
+    <script src="/JS/pickChart.js"></script>
     <script>
 
-        var things = {
-            questSrt:["role","center","degree","color","team","tasks","learn","consumer","tools","resources","understood","change","person","attend","useful","RIP"],
-            questPairs:{
-                // "q_0":{"chartT":"rowChart","question":"role"},
-                "q_1":{"chartT":"rowChart","question":"role"},
-                "q_2":{"chartT":"pieChart","question":"center"},
-                "q_3":{"chartT":"rowChart","question":"degree"},
-                "q_4":{"chartT":"pieChart","question":"color"},
-                "q_5":{"chartT":"pieChart","question":"team"},
-                "q_6":{"chartT":"tasks","question":"rowChart"},
-                "q_7":{"chartT":"learns","question":"rowChart"},
-                "q_8":{"chartT":"consumer","question":"rowChart"},
-                "q_9":{"chartT":"tools","question":"rowChart"},
-                "q_10":{"chartT":"resources","question":"rowChart"},
-                "q_11":{"chartT":"understood","question":"table"},
-                "q_12":{"chartT":"change","question":"rowChart"},
-                // "q_13":{"chartT":"attend","question":"pieChart"},
-                "q_14":{"chartT":"attend","question":"pieChart"},
-                "q_15":{"chartT":"useful","question":"table"},
-                "q_16":{"chartT":"RIP","question":"table"},
-            },
-            "fav_colors_array":[]
-        }
-
-// /data/BDBT_practice_5.csv
-//BigDataBigThink2017Survey_20170411_4.csv
-
-        d3.csv("/data/BigDataBigThink2017Survey_20170412_5.csv", function(data) {
+        d3.csv("/data/nonsense.csv", function(data) {
             console.log(data);
             data = splitBasedSmCol(data)
             data = takeOutSpacesinKeys(data)
             console.log("processed into arrays hopefully! ",data);
-            complete: uponDataLoad(data)
+            complete: examineAnswers(data)
         });
 
         //// function to only return unique items in an array
@@ -246,19 +217,8 @@
                     if (typeof values[i] === 'string' && values[i].indexOf(';') < 1){
                       processedData[row_number][keys[i]] = [values[i]]
                     }
-
-                    //// makes list of colors in favorite colors question if present
-                    
-                    if (keys[i] === "What is your favorite color?  [single word or hex code]"){
-                        //console.log("color keys[i] = ",keys[i])
-                        things.fav_colors_array.push(values[i])
-                    }
-                    //// end
                 }
-                things.fav_colors_array.sort()
-                things.fav_colors_array = uniq(things.fav_colors_array)
             });
-            //console.log("color things.fav_colors_array ",things.fav_colors_array)
             return processedData
         }
         function takeOutSpacesinKeys(data){
@@ -280,196 +240,52 @@
             return processedData
         }
 
+        function putInSpacesinKeys(data){
+            //// for each object in data, replace all " " in key name with "_" so it is easier to use as ID
+            //// for each element in each row, find key and replace " " with "_"
+            var processedData = data
+            var row_number = -1
+            processedData.forEach(function(row){
+                row_number += 1
+                keys = Object.keys(row)
+                values = Object.values(row)
+                for (i = 0; i < keys.length; i++) {  
+                    newKeyString = keys[i].replace(/_/g ," ")
+                    console.log("newKeyString ",newKeyString)
+                    processedData[row_number][newKeyString] = processedData[row_number][keys[i]]
+                    delete processedData[row_number][keys[i]]
+                }
+            });
+            return processedData
+        }
+
+
 
     </script>
     <script>
-    function uponDataLoad(data){
-        // console.log("data in second script ",data)
+
+    //// looks at questions & answers and populates characteristics that will be used to decide what chart type is best to use then runs function uponDataLoad() that creates html and charts before rendering them
+    function examineAnswers(data){
+      //// looks at questions & answers and populates characteristics that will be used to decide what chart type is best to use (functions in questions.js)
+      var questions = identify_questions(data)
+      //// runs function below that takes in data and questions variable and creates html & dc.js charts
+      uponDataLoad(data,questions)
+    }
+
+    //// function that builds charts and then renders them
+    function uponDataLoad(data,questions){
+
+        //// adds data into crossfilter object
         var cf = crossfilter(data);
 
-        // var colorScale = d3.scale.ordinal().domain(["#000000", "#003366", "#008080","#9CC1F0","blue","purple"])
-        //                            .range(["#000000", "#003366", "#008080","#9CC1F0","blue","purple"]);
+        //// populates ideal chart key for each of the questions based on (pickCharts.js)s
+        var questions = pickChart(questions)
+        //// runs functions in (pickCharts.js) that runs through questions variable and creates best html based on recommended charts
+
+        //// runs functions in (pickCharts.js) that creates dc chart variables 
 
 
-        //// role row chart
-        var role = "Which_of_these_best_describes_your_involvement_with_big_data,_data_science,_etc?_"
-        var roleDim = cf.dimension(function(d){ return d[role];});
-        var roleGroup = roleDim.group();
-        var roleRowChart = dc.rowChart("#role-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(roleDim)
-            .group(roleGroup)
-            .xAxis().ticks(3);
-
-        //// center pie chart
-        var centerDim = cf.dimension(function(d){ return d["What_center_are_you_affiliated_with?"];});
-        var centerGroup = centerDim.group();
-        var centerArrayPieChart = dc.pieChart("#center-pie")
-            .height(250)
-            .width(250)
-            .dimension(centerDim)
-            .group(centerGroup);
-
-        //// degree row chart
-        var degree = "What_are_your_degree(s)_in?_"
-        var degreeDim = cf.dimension(function(d){ return d[degree];});
-        var degreeGroup = degreeDim.group();
-        var degreeRowChart = dc.rowChart("#degree-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(degreeDim)
-            .group(degreeGroup)
-            .xAxis().ticks(3);
-
-        //// degree row chart
-        var team = "Are_you_on_a_team_that_focuses_on_data_science_or_are_you_embedded_in_another_group_that_happens_to_do_some_data_science?"
-        var teamDim = cf.dimension(function(d){ return d[team];});
-        var teamGroup = teamDim.group();
-        var teamRowChart = dc.rowChart("#team-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(teamDim)
-            .group(teamGroup)
-            .xAxis().ticks(3);
-
-        //// tasks row chart
-        var tasks = "Which_of_these_is_your_organization_using_in_some_form?_[select_all_that_apply]"
-        var tasksDim = cf.dimension(function(d){ return d[tasks];},true);
-        var tasksGroup = tasksDim.group();
-        var tasksRowChart = dc.rowChart("#tasks-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(tasksDim)
-            .group(tasksGroup)
-            .xAxis().ticks(3);
-
-        var learn = "Is_there_an_area_you'd_like_to_learn_about,_do_more_with_in_the_future,_or_improve_you/your_team's_skills_in?_[select_all_that_apply]"
-        var learnDim = cf.dimension(function(d){ return d[learn];},true);
-        var learnGroup = learnDim.group();
-        var learnRowChart = dc.rowChart("#learn-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(learnDim)
-            .group(learnGroup)
-            .xAxis().ticks(3);
-
-        var change = "If_you_could_change_two_things_about_your_data_science_work,_what_would_they_be?_"
-        var changeDim = cf.dimension(function(d){ return d[change];},true);
-        var changeGroup = changeDim.group();
-        var changeRowChart = dc.rowChart("#change-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(changeDim)
-            .group(changeGroup)
-            .xAxis().ticks(3);
-
-        //// attend pie chart
-        var attend = 'Are_you_attending_the_2017_"Big_Data_Big_Think"?'
-        var attendDim = cf.dimension(function(d){ return d[attend];});
-        var attendGroup = attendDim.group();
-        var attendArrayPieChart = dc.pieChart("#attend-pie")
-            .height(250)
-            .width(250)
-            .dimension(attendDim)
-            .group(attendGroup);
-
-
-        // // tell crossfilter that this dimension isArray=true
-        var color = "What_is_your_favorite_color?__[single_word_or_hex_code]"
-        var colorDim = cf.dimension(function(d){ 
-            console.log("things.fav_colors_array ",things.fav_colors_array)
-            return d[color];});
-        var colorGroup = colorDim.group();
-        var colorArrayPieChart = dc.pieChart("#medium-array-pie")
-            .height(250)
-            .width(250)
-            .dimension(colorDim)
-            .group(colorGroup)
-            .ordinalColors(things.fav_colors_array)
-
-        var statesDim = cf.dimension(function(d){ return d['Are_you_attending_the_2017_"Big_Data_Big_Think"?'];});
-        var statesGroup = statesDim.group();
-
-        var statesPieChart = dc.pieChart("#states-pie")
-            .height(250)
-            .width(250)
-            .dimension(statesDim)
-            .group(statesGroup);
-
-        // leave crossfilter isArray default (false)
-        
-        var resource = "What_are_a_few_of_the_significant_places_you_look_to_keep_up_with_trends,_technologies,_and_best_practices_in_data_science?_"
-        var resourceDim = cf.dimension(function(d){ return d[resource];},true);
-        var resourceGroup = resourceDim.group();
-        var resourceRowChart = dc.rowChart("#resource-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(resourceDim)
-            .group(resourceGroup)
-            .xAxis().ticks(3);
-
-
-        var tools = "What_technologies_have_you_(or_your_team)_used_to_do_data_cleaning,_data_analysis_and_modeling,_or_data_visualization?_(within_last_7_years)_"
-        var toolsDim = cf.dimension(function(d){ return d[tools];},true);
-        var toolsGroup = toolsDim.group();
-        var toolsRowChart = dc.rowChart("#tools-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(toolsDim)
-            .group(toolsGroup)
-            .xAxis().ticks(3);
-
-        var consumer = "Who_consumes_your_data-science-related_projects?_"
-        var consumerDim = cf.dimension(function(d){ return d[consumer];},true);
-        var consumerGroup = consumerDim.group();
-        var consumerRowChart = dc.rowChart("#consumer-bars")
-            .renderLabel(true)
-            .height(300)
-            .width(400)
-            .dimension(consumerDim)
-            .group(consumerGroup)
-            .xAxis().ticks(3);
-
-        var understood = "What_do_you_wish_your_users_understood_about_data_science?__[1_sentence_or_single_word]"
-        var understoodDim = cf.dimension(function(d){ return d[understood]});
-        var understoodGroup = understoodDim.group()
-        
-
-        //// a function that fills out the rows of a table based on table_id which includes # and a single dimension, which should be a key as a string with underscores filled in
-        function makeSingleTable(table_id,table_dim){
-            for (each in data){
-                console.log("each = ",each," and data[each] = ",data[each], " and table_dim is ",table_dim)
-                console.log("data[each][table_dim]", data[each][table_dim])
-                $(table_id+" tbody").append("<tr><td>"+data[each][table_dim]+"</td></tr>");
-            }
-            $(table_id).DataTable({ 
-                "ordering": false,
-                // "search":false,
-                "bLengthChange": false,
-                "bPaginate": true,
-                "bFilter": false,
-                "bInfo": false,
-                "bAutoWidth": false
-            });
-        }
-        
-        var useful = "How_can_we_make_the_Big_Data_Big_Think_meeting_more_useful_to_you?_[optional]"
-        var rip = "Is_there_anything_you_want_to_say_that_didn't_fit_in_the_survey_above?_[optional]"
-
-        makeSingleTable("#understood-table",understood)
-        makeSingleTable("#useful-table",useful)
-        makeSingleTable("#rip-table",rip)
-
-
+        //// after all charts are built, renders all of them
         dc.renderAll(); 
     }
     </script>

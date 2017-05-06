@@ -1,6 +1,6 @@
 # SurViz_dcjs_googleform
 
-in progress
+## "in progress"
 
 ## Goal
 A project you can drop any google form response csv into and an interactive website running dc.js on the charts will be produced.
@@ -26,7 +26,6 @@ The assumption is flat csv import with checklist answers with multiple items bei
 - Functions that process the data to deal with several issues coming from google forms
     - questions have spaces in the name, which doesn't work well for key names and ids, have spaces " " replaced with "_" underscores. = takeOutSpacesinKeys(data)
     - certain strings need to be split into array when dealing with checklist answers ";" = splitBasedSmCol() function
-    - an array of unique color names is created for use as a color bar in the "favorite color" pie chart. = a subset of the splitBasedSmCol() function
 - Functions that puts questions into html as headers paired with appropriate dc.js chart. This is all within the uponDataLoad(data) function. Currently, only row charts (horizontal bar charts), pie charts, and tables are used. The functions for creating the dc.js charts could be significantly optimised to DRY. The current project was quickly thrown together before a meeting. Tables are created with jquery dataTables library. They are not linked to the other charts on purpose. That is an option.
 
 ## Privacy considerations
@@ -34,3 +33,53 @@ The fact that charts are linked will make it possible to filter down to the leve
 
 ## Example image
 image goes here eventually.
+
+## Future work
+
+Create a method for categorizing the answers for each question. 
+
+### 
+
+1. For each question, create a structure of ["question 1":["key":"value","key":"value"] with keys as.... this is done after answer strings are turned into array if ; is present. These things are populated in loops with number or string being first thing to check. 
+2. Key = "highest number of answers in that answer". (highest wins, "integer")
+3. Key = "total number of unique answers across all answers" (populate unique [array])
+4. Key = "string or number", if both, count as strings ("string" that says string or number)
+5. Key = "if single string, total number of characters in string, if array of strings, character total in longest string within array" (0 or highest string length, "integer")
+6. Key = "length in characters of string in each question" ("integer")
+7. 
+
+
+## Functions
+
+index.html
+- d3.csv = loads data
+- function uniq(a)
+- splitBasedSmCol(data)
+- takeOutSpacesinKeys(data)
+- putInSpacesinKeys(data)
+- examineAnswers(data)
+- uponDataLoad(data,questions)
+- pickChart(questions)
+questions.js
+- identify_questions(data)
+pickChart.js
+- makePie(cf,ID,height,width,questionWith_)
+- makeRow(cf,ID,height,width,questionWith_)
+- makeLinearBar(cf,ID,height,width,questionWith_,scale)
+- makeSingleTable(data,table_id,questionWith_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
