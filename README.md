@@ -1,6 +1,6 @@
 # SurViz_dcjs_googleform
 
-## "in progress"
+## "in progress, really messy, no joke"
 
 ## Goal
 A project you can drop any google form response csv into and an interactive website running dc.js on the charts will be produced.
