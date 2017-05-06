@@ -53,15 +53,19 @@ Create a method for categorizing the answers for each question.
 
 index.html
 - d3.csv = loads data
-- function uniq(a)
-- splitBasedSmCol(data)
-- takeOutSpacesinKeys(data)
-- putInSpacesinKeys(data)
-- examineAnswers(data)
-- uponDataLoad(data,questions)
-- pickChart(questions)
+- function uniq(a) = helper, makes arrays unique
+- splitBasedSmCol(data) = helper, splits strings into arrays based on ;
+- takeOutSpacesinKeys(data) = helper, replaces " " with "_"
+- putInSpacesinKeys(data) = helper, replaces "_" with " "
+- examineAnswers(data) = function that runs the function identify_questions() and then uponDataLoad()
+
 questions.js
-- identify_questions(data)
+- identify_questions(data) = group of functions, looks at answers & questions and populats charactersitics about them.....
+
+index.html
+- uponDataLoad(data,questions) = group of functions, functions that runs after data loads  & examineAnswer function runs
+- pickChart(questions) = function that picks the type of chart based on characteristics made in examineAnswers
+
 pickChart.js
 - makePie(cf,ID,height,width,questionWith_)
 - makeRow(cf,ID,height,width,questionWith_)
