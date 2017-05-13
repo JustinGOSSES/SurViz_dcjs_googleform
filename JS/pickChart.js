@@ -40,7 +40,7 @@ function pickChart(questions){
 ////// pie chart ///////
 function makePie(cf,ID,height,width,questionWith_){
 	console.log("ID for question "+questionWith_+" is ",ID)
-	var Dim = cf.dimension(function(d){ return d[questionWith_];});
+	var Dim = cf.dimension(function(d){ return d[questionWith_];},true);
 	console.log("DIM for question "+questionWith_+" is ",Dim)
 	var dimGroup = Dim.group();
 	var PieChart = dc.pieChart("#"+ID)
@@ -53,7 +53,7 @@ function makePie(cf,ID,height,width,questionWith_){
 ////// row chart ///////
 function makeRow(cf,ID,height,width,questionWith_){
 	console.log("ID for question "+questionWith_+" is ",ID)
-	var Dim = cf.dimension(function(d){ return d[questionWith_];});
+	var Dim = cf.dimension(function(d){ return d[questionWith_];},true);
 	var dimGroup = Dim.group();
 	var rowChart = dc.rowChart("#"+ID)
 			.renderLabel(true)

@@ -313,7 +313,8 @@
           //// ID is the id of the div on which chart rows are appended
           buildRow(rowHolder[eachRow],cf,ID,questionNumber,questionsResult)
           //// progresses the chart number used as ID by the number of questions in each row array inside the rowHolder array
-          chartNumber += eachRow.length
+          console.log("eachRow",rowHolder[eachRow])
+          chartNumber += rowHolder[eachRow].length
         }
 
         //buildRow(row_holder,cf,ID,height,width,questionWith_,questionNumber,scale)
