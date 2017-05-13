@@ -63,10 +63,11 @@ function identify_questions(data){
 					questions[AnswerInt].countA = data[row][AnswerInt].length
 				}
 			}
+
 			//console.log("questions.js length of answer array ",questions[AnswerInt].countA)
 			//// END: determine length of array of answers for each question
 			
-			//// START: determine if there are only any strings in answers, if so, consider all string
+			//// START: determine if there are any strings in answers, if so, consider all string
 			for (eachAnswer in data[row][AnswerInt]){
 				//console.log("question.js check typeof(data[row][AnswerInt][eachAnswer])",typeof(data[row][AnswerInt][eachAnswer]))
 				if(questions[AnswerInt].numOr !== "string"){

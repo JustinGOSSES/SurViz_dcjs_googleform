@@ -4,25 +4,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- this link was replaced with the not-quite-identical file below it -->
  <!--  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.css" /> -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+<!--   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" /> -->
+  <link rel="stylesheet" type="text/css" href="CSS/dataTables.css" />
   <link rel="stylesheet" type="text/css" href="/CSS/dc_211.css" />
   <link rel="stylesheet" type="text/css" href="/CSS/style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script> -->
+  <script src="JS/d3.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.4.0-alpha.6/crossfilter.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
+  <!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script> -->
+  <script src="JS/dataTablesJquery.js"></script>
 </head>
 
 <body>
-    <div class="row header">
+    <div id="header" class="row header">
         <div class="col-sm-12">
           <h2 class="center">Some Survey Title Goes Here</h2>
             <p>This information was collected to give participants insight into the range of blank and blank in the room. What do they want to learn? What categories of data analytics do they work on? Are there any interesting gaps in terms of skill areas not present? How do they keep up with new technologies?</p>
         </div>
     </div>
+
     <div class="row">
         <!-- <div class="col-sm-4">
         </div> -->
@@ -40,7 +45,8 @@
           <!-- </p> -->
       </div>
     </div>
-
+    <div id="hangChartRowsOffMe"></div>
+<!-- 
     <div class="row surveyRow">
       <div class="col-sm-4 middle">
           <div>
@@ -157,7 +163,7 @@
               </tbody>
             </table>
          </div> 
-    </div>
+    </div> -->
 
     <div class="row surveyRow gap">
     </div>
@@ -172,7 +178,10 @@
     <script src="/JS/pickChart.js"></script>
     <script>
 
-        d3.csv("/data/nonsense.csv", function(data) {
+
+
+// /data/nonsense.csv
+        d3.csv("/data/BigDataBigThink2017Survey_20170412_5.csv", function(data) {
             console.log(data);
             data = splitBasedSmCol(data)
             data = takeOutSpacesinKeys(data)
@@ -240,6 +249,11 @@
             return processedData
         }
 
+        function putInSpacesinString(string){
+          string = string.replace(/_/g ," ")
+          return string
+        }
+
         function putInSpacesinKeys(data){
             //// for each object in data, replace all " " in key name with "_" so it is easier to use as ID
             //// for each element in each row, find key and replace " " with "_"
@@ -274,14 +288,35 @@
 
     //// function that builds charts and then renders them
     function uponDataLoad(data,questions){
-
         //// adds data into crossfilter object
         var cf = crossfilter(data);
-
         //// populates ideal chart key for each of the questions based on (pickCharts.js)s
-        var questions = pickChart(questions)
+        //// options include: piechart or linearbarDate or table
+        var questionsResult = pickChart(questions)
         //// runs functions in (pickCharts.js) that runs through questions variable and creates best html based on recommended charts
+        //// this creates the groups for each row, explained more in pickChart.js
+        //// in other words [["question1,question2,question3"],["question4"],,etc....]
+        var rowHolder = groupQuestIntoRows(questionsResult)
+        console.log("index uponDataLoad() rowHolder = ",rowHolder)
+        //// chartNumber starts with 0.. each chart is another 1 added.
+        ////
+        var chartNumber = 0
+        //// this function takes the rowHolder object and creates html structure starting with the row, then divs inside, then charts
+        var ID = "hangChartRowsOffMe"
+        for (eachRow in rowHolder){
+          var questionNumber = chartNumber
+          //// builds all the html and charts for eachRow in the row holder
+          //// eachRow = array of chart questions represented in one bootstrap row
+          //// cf = crossfilter object created from the data 
+          //// questionWidth_ = ?????
+          //// questionNumber = see above
+          //// ID is the id of the div on which chart rows are appended
+          buildRow(rowHolder[eachRow],cf,ID,questionNumber,questionsResult)
+          //// progresses the chart number used as ID by the number of questions in each row array inside the rowHolder array
+          chartNumber += eachRow.length
+        }
 
+        //buildRow(row_holder,cf,ID,height,width,questionWith_,questionNumber,scale)
         //// runs functions in (pickCharts.js) that creates dc chart variables 
 
 
