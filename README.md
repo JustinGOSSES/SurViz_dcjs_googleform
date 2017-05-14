@@ -11,6 +11,9 @@ Most of the times when people look at survey results, the results for each quest
 ## Authored by 
 Justin Gosses
 
+## Dataset
+Currently using a survey on the data visualization community found here: <a href="https://github.com/emeeks/data_visualization_survey">https://github.com/emeeks/data_visualization_survey</a>
+
 ## About
 This is a series of charts representing questions of a survey. All the charts are linked. When the user clicks on one bar or slice of a pie chart, it will filter all the other charts. Currently, long-form fill-in-the-blank ansers are not linked to the rest of the charts. This could be easily changed.
 
