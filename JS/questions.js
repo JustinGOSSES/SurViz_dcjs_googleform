@@ -75,15 +75,15 @@ function identify_questions(data){
 					if(typeof(data[row][AnswerInt][eachAnswer]) === "string"){
 						//console.log("questions.js data[row][AnswerInt][eachAnswer][0]",data[row][AnswerInt][eachAnswer][0])
 						if(isNaN(data[row][AnswerInt][eachAnswer][0])){
-							//console.log("questions.js got into isNAN true")
+							console.log("questions.js xx got into isNAN true")
 
-							//console.log("questions.js typeof(data[row][AnswerInt][eachAnswer][0]",typeof(data[row][AnswerInt][eachAnswer][0]))
+							console.log("questions.js xx typeof(data[row][AnswerInt][eachAnswer][0]",typeof(data[row][AnswerInt][eachAnswer][0]))
 							questions[AnswerInt].numOr = "string"
-							//console.log("questions.js questions[AnswerInt].numOr",questions[AnswerInt].numOr)
+							console.log("questions.js xx questions[AnswerInt].numOr",questions[AnswerInt].numOr)
 						}
 						else{
-							//console.log("questions.js got into isNAN false")
-							//console.log("questions.js typeof(data[row][AnswerInt][eachAnswer][0]",typeof(data[row][AnswerInt][eachAnswer][0]))
+							console.log("questions.js xx got into isNAN false")
+							console.log("questions.js xx typeof(data[row][AnswerInt][eachAnswer][0]",typeof(data[row][AnswerInt][eachAnswer][0]))
 								questions[AnswerInt].numOr = "number"
 								//questions[AnswerInt].numOr = typeof(data[row][AnswerInt][eachAnswer][0])
 							// }
