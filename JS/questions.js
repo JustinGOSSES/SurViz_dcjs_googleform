@@ -68,33 +68,69 @@ function identify_questions(data){
 			//// END: determine length of array of answers for each question
 			
 			//// START: determine if there are any strings in answers, if so, consider all string
-			for (eachAnswer in data[row][AnswerInt]){
-				//console.log("question.js check typeof(data[row][AnswerInt][eachAnswer])",typeof(data[row][AnswerInt][eachAnswer]))
-				if(questions[AnswerInt].numOr !== "string"){
-					//console.log("questions.js isNaN(data[row][AnswerInt][eachAnswer][0])",isNaN(data[row][AnswerInt][eachAnswer][0]))
-					if(typeof(data[row][AnswerInt][eachAnswer]) === "string"){
-						//console.log("questions.js data[row][AnswerInt][eachAnswer][0]",data[row][AnswerInt][eachAnswer][0])
-						if(isNaN(data[row][AnswerInt][eachAnswer][0])){
-							console.log("questions.js xx got into isNAN true")
-
-							console.log("questions.js xx typeof(data[row][AnswerInt][eachAnswer][0]",typeof(data[row][AnswerInt][eachAnswer][0]))
+			//// calls it number as base case
+			if(!questions[AnswerInt].numOr){questions[AnswerInt].numOr = "number"}
+			
+			if(questions[AnswerInt].numOr !== "string"){
+				for (eachAnswer in data[row][AnswerInt]){
+						
+						console.log("question.js xx check typeof(data[row][AnswerInt][eachAnswer])",typeof(data[row][AnswerInt][eachAnswer]))
+						console.log("question.js xx check data[row][AnswerInt][eachAnswer]",data[row][AnswerInt][eachAnswer])
+						console.log("question.js xx check data[row][AnswerInt][eachAnswer][0]",data[row][AnswerInt][eachAnswer][0])
+						console.log("question.js xx check isNaN(data[row][AnswerInt][eachAnswer])",isNaN(data[row][AnswerInt][eachAnswer]))
+						if(data[row][AnswerInt][eachAnswer] === ""){
+							console.log("question.js xx check data[row][AnswerInt][eachAnswer][0] === ''",data[row][AnswerInt][eachAnswer][0])
+						}
+					// else{
+						
+						//// switches to string if a string && NAN & !== ""
+						else if (isNaN(data[row][AnswerInt][eachAnswer])===true){
+							//questions[AnswerInt].numOr = "number"
 							questions[AnswerInt].numOr = "string"
-							console.log("questions.js xx questions[AnswerInt].numOr",questions[AnswerInt].numOr)
+							console.log("question.js xx x check isNaN(data[row][AnswerInt][eachAnswer])",isNaN(data[row][AnswerInt][eachAnswer]))
+							console.log("question.js xx x check sdata[row][AnswerInt][eachAnswer]",data[row][AnswerInt])
+							console.log("question.js xx x check sdata[row][AnswerInt][eachAnswer]",data[row][AnswerInt][eachAnswer])
+							console.log("question.js xx x check sdata[row][AnswerInt][eachAnswer][0]",data[row][AnswerInt][eachAnswer][0])
 						}
 						else{
-							console.log("questions.js xx got into isNAN false")
-							console.log("questions.js xx typeof(data[row][AnswerInt][eachAnswer][0]",typeof(data[row][AnswerInt][eachAnswer][0]))
-								questions[AnswerInt].numOr = "number"
-								//questions[AnswerInt].numOr = typeof(data[row][AnswerInt][eachAnswer][0])
-							// }
-						}
-					}
-					else if(typeof(data[row][AnswerInt][eachAnswer]) === "number"){
-						questions[AnswerInt].numOr = "number"
-					}
-					else{console.log("problem in questions.js function identify_questions answer isn't number of string!")}
+							questions[AnswerInt].numOr = "number"
+							//questions[AnswerInt].numOr = "string"
+							console.log("question.js xx x check isNaN(data[row][AnswerInt][eachAnswer])",isNaN(data[row][AnswerInt][eachAnswer]))
+							console.log("question.js xx x check data[row][AnswerInt][eachAnswer][0]",data[row][AnswerInt][eachAnswer][0])
+
+						}	
+					// }
+					
 				}
 			}
+			
+
+
+				// if(questions[AnswerInt].numOr !== "string"){
+				// 	//console.log("questions.js isNaN(data[row][AnswerInt][eachAnswer][0])",isNaN(data[row][AnswerInt][eachAnswer][0]))
+				// 	if(typeof(data[row][AnswerInt][eachAnswer]) === "string"){
+				// 		//console.log("questions.js data[row][AnswerInt][eachAnswer][0]",data[row][AnswerInt][eachAnswer][0])
+				// 		if(isNaN(data[row][AnswerInt][eachAnswer][0])){
+				// 			console.log("questions.js xx got into isNAN true")
+
+				// 			console.log("questions.js xx typeof(data[row][AnswerInt][eachAnswer][0]",typeof(data[row][AnswerInt][eachAnswer][0]))
+				// 			questions[AnswerInt].numOr = "string"
+				// 			console.log("questions.js xx questions[AnswerInt].numOr",questions[AnswerInt].numOr)
+				// 		}
+				// 		else{
+				// 			console.log("questions.js xx got into isNAN false")
+				// 			console.log("questions.js xx typeof(data[row][AnswerInt][eachAnswer][0]",typeof(data[row][AnswerInt][eachAnswer][0]))
+				// 				questions[AnswerInt].numOr = "number"
+				// 				//questions[AnswerInt].numOr = typeof(data[row][AnswerInt][eachAnswer][0])
+				// 			// }
+				// 		}
+				// 	}
+				// 	else if(typeof(data[row][AnswerInt][eachAnswer]) === "number"){
+				// 		questions[AnswerInt].numOr = "number"
+				// 	}
+				// 	else{console.log("problem in questions.js function identify_questions answer isn't number of string!")}
+				// }
+			//}
 			//// END: determine if there are only any strings in answers, if so, consider all string
 
 			//// START: if number, determine if answer is date vs. integer vs. time
@@ -148,8 +184,8 @@ function identify_questions(data){
 			//console.log("questions.js uniq questions[AnswerInt]['uniqItems'] = ",questions[AnswerInt]["uniqItems"])
 			//// END: Number of unique answer across all answer arrays
 		}
-		console.log("questions.js check questions",questions)
 	}
+console.log("question.js xx x check questions",questions)	
 return questions
 }
 

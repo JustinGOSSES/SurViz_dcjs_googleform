@@ -10,8 +10,12 @@ function pickChart(questions){
 		if (questions[eachAnswerAr]["uniqItemsCount"] < 3.1 && questions[eachAnswerAr]["IndAnsMaxLength"] < 40.1 && questions[eachAnswerAr].type === "string"){
 			questions[eachAnswerAr]["chartType"] = "piechart"
 		}
-		else if (questions[eachAnswerAr].uniqItemsCount > 75){
+		else if (questions[eachAnswerAr].uniqItemsCount > 65){
 			questions[eachAnswerAr]["chartType"] = "table"
+		}
+		//// Not strings, Not date, Not time, but numbers = Linear Bar Chart
+		else if (questions[eachAnswerAr].type === "number"){
+			questions[eachAnswerAr]["chartType"] = "linearbarNumb"
 		}
 	//// =< 3 answers && each answer > 40 characters OR > 3 uniq answers && < 25 uniq answers && < 70 max characters = Row Chart
 		else if (questions[eachAnswerAr].uniqItemsCount < 3.1 && questions[eachAnswerAr].IndAnsMaxLength > 40.1 || questions[eachAnswerAr].uniqItemsCount > 3.1 && questions[eachAnswerAr].IndAnsMaxLength < 100.1 ){
@@ -22,7 +26,7 @@ function pickChart(questions){
 		// 	questions[eachAnswerAr]["chartType"] = "rowchart"
 		// }
 	//// Max characters > 70 OR >25 uniq answer = Table 
-		else if (questions[eachAnswerAr].IndAnsMaxLength > 100.1 || questions[eachAnswerAr].uniqItemsCount > 25){
+		else if (questions[eachAnswerAr].IndAnsMaxLength > 65.1 || questions[eachAnswerAr].uniqItemsCount > 25){
 			questions[eachAnswerAr]["chartType"] = "table"
 		}
 			//// Not strings, Not date, Not time, but numbers = Linear Bar Chart
@@ -73,11 +77,19 @@ function makeRow(cf,ID,height,width,questionWith_){
 }
 
 ////// linear bar chart number, date, or time ///////
-function makeLinearBar_Number(cf,ID,height,width,questionWith_){
+function makeLinearBar_Number(data,cf,ID,height,width,questionWith_,uniqItemsCount){
 	//console.log("ID for question "+questionWith_+" is ",ID)
 	var d3scale = d3.scale.linear()
 	///// need to investigate this more !!!!! //////// 
-	d3scale = d3.scale.linear().domain([20, 70])
+	var min = d3.min(data, function(d) { return d[questionWith_];})
+	var max = d3.max(data, function(d) { return d[questionWith_];})
+	var prec = 1
+	if (max - min > 10){
+		prec = (max - min) / uniqItemsCount
+ 	}
+ 	// else if()}{}
+	d3scale = d3.scale.linear().domain([min,max])
+	//d3scale = d3.scale.linear().domain([0, 100])
 	var Dim = cf.dimension(function(d){ return d[questionWith_];});
 	var dimGroup = Dim.group();
 	var barChart = dc.barChart("#"+ID)
@@ -90,7 +102,7 @@ function makeLinearBar_Number(cf,ID,height,width,questionWith_){
             ///// might need to get fancier with domain!!!!!!
             //.x(d3.scale.linear().domain([20, 70]))
             .x(d3scale)
-        	.xUnits(dc.units.fp.precision(1));
+        	.xUnits(dc.units.fp.precision(prec));
 }
 
 ////// linear bar chart number, date, or time ///////
@@ -132,6 +144,7 @@ function makeLinearBar_Time(cf,ID,height,width,questionWith_){
             ///// might need to get fancier with domain!!!!!!
             //.x(d3.scale.linear().domain([20, 70]))
             .x(d3scale)
+            //.xUnits(function(){return 10;});
         	.xUnits(dc.units.fp.precision(1));
 }
 
@@ -318,6 +331,7 @@ function buildRow(data,row,cf,ID,questionNumber,questionsResult){
 		//// this makes chart and returns it as variables
 		//// append chart html to div_around_chart html
 		var madeChart = "<p>something didn't work, my bad</p>"
+		var uniqItemsCount = questionsResult[row[question]]["uniqItemsCount"]
 		if(chartType === "piechart"){
 			//console.log("pichChart.js got into charts function pieChart")
 			madeChart = makePie(cf,"Question_"+questionNumber,sizeArray.height,sizeArray.width,questionWith_)
@@ -328,7 +342,7 @@ function buildRow(data,row,cf,ID,questionNumber,questionsResult){
 		}
 		else if(chartType === "linearbarNumb"){
 			//console.log("pichChart.js got into charts function linearbarNumb")
-			madeChart = makeLinearBar_Number(cf,"Question_"+questionNumber,sizeArray.height,sizeArray.width,questionWith_)
+			madeChart = makeLinearBar_Number(data, cf,"Question_"+questionNumber,sizeArray.height,sizeArray.width,questionWith_,uniqItemsCount)
 		}
 		else if(chartType === "linearbarDate"){
 			//console.log("pichChart.js got into charts function linearbarDate")
