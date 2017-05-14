@@ -22,27 +22,27 @@
 
 
 function identify_questions(data){
-	console.log("questions test data",data)
+	//console.log("questions test data",data)
 	var questions = {}
 	var rowN = 0;
 
 	for (row in data){
-		console.log("questions.js row is",row)
-		console.log("questions.js typeof(data[row] is",typeof(data[row]))
+		//console.log("questions.js row is",row)
+		//console.log("questions.js typeof(data[row] is",typeof(data[row]))
 		var key_array = Object.keys(data[row])
-		console.log("questions.js key_array is ",key_array)
+		//console.log("questions.js key_array is ",key_array)
 
 		for (eachQ in key_array){
 			//// AnswerInt is a single question, as string
 			var AnswerInt = key_array[eachQ]
-			console.log("questions.js check AnswerInt is ",AnswerInt)
-			console.log("questions.js check eachQ is ",eachQ)
+			//console.log("questions.js check AnswerInt is ",AnswerInt)
+			//console.log("questions.js check eachQ is ",eachQ)
 
 			//// START: establish each question as a key
 			if(!questions[AnswerInt]){
-				console.log("questions.eachQ did not exist",questions[AnswerInt])
+				//console.log("questions.eachQ did not exist",questions[AnswerInt])
 				questions[AnswerInt] = []
-				console.log("questions.js check 2 questions.eachQ did not exist",questions[AnswerInt])
+				//console.log("questions.js check 2 questions.eachQ did not exist",questions[AnswerInt])
 			}
 			else{				
 				console.log("questions.js check 2 hit else questions.eachQ did not exist",questions[AnswerInt])
@@ -113,8 +113,8 @@ function identify_questions(data){
 				//// if not time or date or string, consider as basic number
 			else{
 				questions[AnswerInt]["type"] = "number"
-				console.log("questions.js check time,date,number hit number? = ",data[row][AnswerInt][0])
-				console.log("questions.js check time,date,number hit number = ",data[row][AnswerInt][0][4])
+				//console.log("questions.js check time,date,number hit number? = ",data[row][AnswerInt][0])
+				//console.log("questions.js check time,date,number hit number = ",data[row][AnswerInt][0][4])
 			}
 			//// END: if number, determine if answer is date vs. integer/decimal vs. time
 			

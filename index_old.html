@@ -454,8 +454,8 @@
         //// a function that fills out the rows of a table based on table_id which includes # and a single dimension, which should be a key as a string with underscores filled in
         function makeSingleTable(table_id,table_dim){
             for (each in data){
-                console.log("each = ",each," and data[each] = ",data[each], " and table_dim is ",table_dim)
-                console.log("data[each][table_dim]", data[each][table_dim])
+                //console.log("each = ",each," and data[each] = ",data[each], " and table_dim is ",table_dim)
+                //console.log("data[each][table_dim]", data[each][table_dim])
                 $(table_id+" tbody").append("<tr><td>"+data[each][table_dim]+"</td></tr>");
             }
             $(table_id).DataTable({ 

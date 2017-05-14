@@ -2,23 +2,30 @@ console.log("got into pickChart.js")
 
 //// Function for decided what chart to use based on details found in question.js function(s) ////
 function pickChart(questions){
-	console.log("got into pickChart function")
+	//console.log("got into pickChart function")
 	for (eachAnswerAr in questions){
-		console.log("pickChart questions[eachAnswerAr]",questions[eachAnswerAr])
+		//console.log("pickChart questions[eachAnswerAr]",questions[eachAnswerAr])
 		questions[eachAnswerAr]["chartType"] = ""
 	//// =< 3 uniq answers && each answer =< 40 characters = Pie Chart
 		if (questions[eachAnswerAr]["uniqItemsCount"] < 3.1 && questions[eachAnswerAr]["IndAnsMaxLength"] < 40.1 && questions[eachAnswerAr].type === "string"){
 			questions[eachAnswerAr]["chartType"] = "piechart"
 		}
-	//// =< 3 answers && each answer > 40 characters OR > 3 uniq answers && < 25 uniq answers && < 70 max characters = Row Chart
-		else if (questions[eachAnswerAr].uniqItemsCount < 3.1 && questions[eachAnswerAr].IndAnsMaxLength > 40.1 || questions[eachAnswerAr].uniqItemsCount > 3.1 && questions[eachAnswerAr].IndAnsMaxLength < 70.1 ){
-			questions[eachAnswerAr]["chartType"] = "rowchart"
-		}
-	//// Max characters > 70 OR >25 uniq answer = Table 
-		else if (questions[eachAnswerAr].IndAnsMaxLength > 70.1 || questions[eachAnswerAr].uniqItemsCount > 25){
+		else if (questions[eachAnswerAr].uniqItemsCount > 75){
 			questions[eachAnswerAr]["chartType"] = "table"
 		}
-	//// Not strings, Not date, Not time, but numbers = Linear Bar Chart
+	//// =< 3 answers && each answer > 40 characters OR > 3 uniq answers && < 25 uniq answers && < 70 max characters = Row Chart
+		else if (questions[eachAnswerAr].uniqItemsCount < 3.1 && questions[eachAnswerAr].IndAnsMaxLength > 40.1 || questions[eachAnswerAr].uniqItemsCount > 3.1 && questions[eachAnswerAr].IndAnsMaxLength < 100.1 ){
+			questions[eachAnswerAr]["chartType"] = "rowchart"
+		}
+		
+		// else if(questions[eachAnswerAr].length > 1 && questions[eachAnswerAr].uniqItemsCount < 40){
+		// 	questions[eachAnswerAr]["chartType"] = "rowchart"
+		// }
+	//// Max characters > 70 OR >25 uniq answer = Table 
+		else if (questions[eachAnswerAr].IndAnsMaxLength > 100.1 || questions[eachAnswerAr].uniqItemsCount > 25){
+			questions[eachAnswerAr]["chartType"] = "table"
+		}
+			//// Not strings, Not date, Not time, but numbers = Linear Bar Chart
 		else if (questions[eachAnswerAr].type === "number"){
 			questions[eachAnswerAr]["chartType"] = "linearbarNumb"
 		}
@@ -39,9 +46,9 @@ function pickChart(questions){
 
 ////// pie chart ///////
 function makePie(cf,ID,height,width,questionWith_){
-	console.log("ID for question "+questionWith_+" is ",ID)
+	//console.log("ID for question "+questionWith_+" is ",ID)
 	var Dim = cf.dimension(function(d){ return d[questionWith_];},true);
-	console.log("DIM for question "+questionWith_+" is ",Dim)
+	//console.log("DIM for question "+questionWith_+" is ",Dim)
 	var dimGroup = Dim.group();
 	var PieChart = dc.pieChart("#"+ID)
 			.height(height)
@@ -52,7 +59,7 @@ function makePie(cf,ID,height,width,questionWith_){
 
 ////// row chart ///////
 function makeRow(cf,ID,height,width,questionWith_){
-	console.log("ID for question "+questionWith_+" is ",ID)
+	//console.log("ID for question "+questionWith_+" is ",ID)
 	var Dim = cf.dimension(function(d){ return d[questionWith_];},true);
 	var dimGroup = Dim.group();
 	var rowChart = dc.rowChart("#"+ID)
@@ -67,7 +74,7 @@ function makeRow(cf,ID,height,width,questionWith_){
 
 ////// linear bar chart number, date, or time ///////
 function makeLinearBar_Number(cf,ID,height,width,questionWith_){
-	console.log("ID for question "+questionWith_+" is ",ID)
+	//console.log("ID for question "+questionWith_+" is ",ID)
 	var d3scale = d3.scale.linear()
 	///// need to investigate this more !!!!! //////// 
 	d3scale = d3.scale.linear().domain([20, 70])
@@ -88,7 +95,7 @@ function makeLinearBar_Number(cf,ID,height,width,questionWith_){
 
 ////// linear bar chart number, date, or time ///////
 function makeLinearBar_Date(cf,ID,height,width,questionWith_){
-	console.log("ID for question "+questionWith_+" is ",ID)
+	//console.log("ID for question "+questionWith_+" is ",ID)
 	var d3scale = d3.scale.linear()
 	///// need to investigate this more !!!!! //////// 
 	d3scale = d3.time.scale().domain([new Date(2012, 4, 20), new Date(2012, 7, 15)])
@@ -109,7 +116,7 @@ function makeLinearBar_Date(cf,ID,height,width,questionWith_){
 
 ////// linear bar chart number, date, or time ///////
 function makeLinearBar_Time(cf,ID,height,width,questionWith_){
-	console.log("ID for question "+questionWith_+" is ",ID)
+	//console.log("ID for question "+questionWith_+" is ",ID)
 	var d3scale = d3.scale.linear()
 	///// need to investigate this more !!!!! //////// 
 	d3scale = d3.time.scale().domain([new Date(2012, 4, 20), new Date(2012, 7, 15)])
@@ -130,25 +137,29 @@ function makeLinearBar_Time(cf,ID,height,width,questionWith_){
 
 ////// table ///////
 //// a function that fills out the rows of a table based on table_id which includes # and a single dimension, which should be a key as a string with underscores filled in
-function makeSingleTable(data,table_id,questionWith_){
-	var cf = data
-	console.log("ID for question table_id",table_id)
-	var Dim = cf.dimension(function(d){ return d[questionWith_]});
-	var dimGroup = Dim.group()
+function makeSingleTable(data, cf, id,questionWith_){
+	//console.log("ID for question table_id",table_id)
+	$("div#"+id).append("<table id='table_"+id+"' class='display' cellspacing='0' width='100%'><thead><th></th></thead><tbody></tbody></table>")
+	//var Dim = cf.dimension(function(d){ return d[questionWith_]});
+	//var dimGroup = Dim.group()
     for (each in data){
         //console.log("each = ",each," and data[each] = ",data[each], " and table_dim is ",table_dim)
         //console.log("data[each][table_dim]", data[each][table_dim])
-        $(table_id+" tbody").append("<tr><td>"+data[each][Dim]+"</td></tr>");
+        $("table#table_"+id+" tbody").append("<tr><td>"+data[each][questionWith_]+"</td></tr>");
     }
-    $(table_id).DataTable({ 
-        "ordering": false,
-        // "search":false,
+    var table = $("table#table_"+id).DataTable({ 
+        //"ordering": true,
+        //"bOrder": [[ 1, "desc" ]],
+        "aaSorting": [[1, 'desc']],
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        //"search":true,
         "bLengthChange": false,
         "bPaginate": true,
         "bFilter": false,
         "bInfo": false,
         "bAutoWidth": false
     });
+    // table.order([ 1, 'asc' ]).draw()
 }
 
 ///////////////////////////// end functions that make different charts ///////////////////////
@@ -180,17 +191,17 @@ function returnChart(chartType){
 function getChartSize(chartType){
 	var size_ = {"height":250,"width":250}
 	if(chartType === "pieChart"){size_ =  {"height":250,"width":250}}
-	else if(chartType === "rowChart"){size_ =  {"height":250,"width":250}}
-	else if(chartType === "linearbarTime"){size_ =  {"height":300,"width":400}}
-	else if(chartType === "linearbarDate"){size_ =   {"height":300,"width":400}}
-	else if(chartType === "linearbarNumber"){size_ =   {"height":300,"width":400}}
-	else{size_ =   {"height":300,"width":400}}
+	else if(chartType === "rowChart"){size_ =  {"height":450,"width":250}}
+	else if(chartType === "linearbarTime"){size_ =  {"height":350,"width":400}}
+	else if(chartType === "linearbarDate"){size_ =   {"height":350,"width":400}}
+	else if(chartType === "linearbarNumber"){size_ =   {"height":350,"width":400}}
+	else{size_ =   {"height":450,"width":400}}
 	return size_
 }
 
 function getScaleForLinear(chartType){
 	var scale = chartType.slice(8)
-	console.log("pickChart.js getScaleForLinear scale = ",scale)
+	//console.log("pickChart.js getScaleForLinear scale = ",scale)
 	return scale 
 }
 
@@ -251,13 +262,13 @@ function groupQuestIntoRows(questionsResult){
 	//// represents each of the questions that is also a key in the questions array.
 	//// example = [["question1","question2","question3"],["question4"],["question5","question6"],["ques7"]] 
 	//// if there are three questions in an array, than the bootstrap width will be 4. If two, then 6, if one then 12. 
-	console.log("pickChart.js function groupQuestIntoRows : row_holder",row_holder)
+	//console.log("pickChart.js function groupQuestIntoRows : row_holder",row_holder)
 	return row_holder 
 }
 
 
 //// builds a bootstrap row for divs to go inside
-function buildRow(row,cf,ID,questionNumber,questionsResult){
+function buildRow(data,row,cf,ID,questionNumber,questionsResult){
 	var rowStartsWithChart = questionNumber
 	//// html for row as variable
 	var rowHTML = "<div id='firstChartIs_"+rowStartsWithChart+"' class='row'></div>"
@@ -277,12 +288,12 @@ function buildRow(row,cf,ID,questionNumber,questionsResult){
 			width_chartHolder = 12
 			break;
 	}
-	console.log("pickChart row = ",row)
+	//console.log("pickChart row = ",row)
 	//// for each question in row 
 	for (question in row){
 		var questionWith_ = row[question]
 		var questionNumber = questionNumber + 1
-		console.log("pickChart question in row, question = ",row[question])
+		//console.log("pickChart question in row, question = ",row[question])
 		var chartType = questionsResult[row[question]]["chartType"]
 		var sizeArray = getChartSize(chartType)
 		/// scale is needed for when linearBar Charts are built. The domain can either be number, data, or time
@@ -293,38 +304,44 @@ function buildRow(row,cf,ID,questionNumber,questionsResult){
 		var questionNoDash = putInSpacesinString(row[question])
 		//// returns an empty function based on chart type
 		////// might take away ...  //////  var chartFunction = returnChart(chartType)
-		console.log("pickChart.js row[question]",row[question])
+		//console.log("pickChart.js row[question]",row[question])
 		//// makes html elements for div that contains chart and is inside of row html but doesn't yet contain charts
-		var div_around_chart =  "<div class='col-sm-"+width_chartHolder+" middle'><div><p class='question'>"+questionNoDash+"</p><div id='"+"Question_"+questionNumber+"'></div></div></div>"
+		var pQues = "question"
+		if(chartType !== "table"){
+			pQues = "question"
+		}
+		else{pQues = "questionTable"}
+
+		var div_around_chart =  "<div class='col-sm-"+width_chartHolder+" middle'><div><p class='"+pQues+"'>"+questionNoDash+"</p><div id='"+"Question_"+questionNumber+"'></div></div></div>"
 		//// append div_around_chart
 		$("div#"+"firstChartIs_"+rowStartsWithChart).append(div_around_chart)
 		//// this makes chart and returns it as variables
 		//// append chart html to div_around_chart html
 		var madeChart = "<p>something didn't work, my bad</p>"
 		if(chartType === "piechart"){
-			console.log("pichChart.js got into charts function pieChart")
+			//console.log("pichChart.js got into charts function pieChart")
 			madeChart = makePie(cf,"Question_"+questionNumber,sizeArray.height,sizeArray.width,questionWith_)
 		}
 		else if(chartType === "rowchart"){
-			console.log("pichChart.js got into charts function rowchart")
+			//console.log("pichChart.js got into charts function rowchart")
 			madeChart = makeRow(cf,"Question_"+questionNumber,sizeArray.height,sizeArray.width,questionWith_)
 		}
 		else if(chartType === "linearbarNumb"){
-			console.log("pichChart.js got into charts function linearbarNumb")
+			//console.log("pichChart.js got into charts function linearbarNumb")
 			madeChart = makeLinearBar_Number(cf,"Question_"+questionNumber,sizeArray.height,sizeArray.width,questionWith_)
 		}
 		else if(chartType === "linearbarDate"){
-			console.log("pichChart.js got into charts function linearbarDate")
+			//console.log("pichChart.js got into charts function linearbarDate")
 			madeChart = makeLinearBar_Date(cf,"Question_"+questionNumber,sizeArray.height,sizeArray.width,questionWith_)
 		}
 		else if(chartType === "linearbarTime"){
-			console.log("pichChart.js got into charts function linearbarTime")
+			//console.log("pichChart.js got into charts function linearbarTime")
 			madeChart = makeLinearBar_Time(cf,"Question_"+questionNumber,sizeArray.height,sizeArray.width,questionWith_)
 		}
 		else if(chartType === "table"){
 			//// !!! might need to be data instead of cf, check original version if doesn't run right !!!
-			console.log("pichChart.js got into charts function table")
-			madeChart = makeSingleTable(cf,"Question_"+questionNumber,questionWith_)
+			//console.log("pichChart.js got into charts function table")
+			madeChart = makeSingleTable(data, cf,"Question_"+questionNumber,questionWith_)
 		}
 		else{console.log("pickChart.js buildRow, hey!, no match of chart type !!!!!")}
 	}

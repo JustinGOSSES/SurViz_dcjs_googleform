@@ -39,14 +39,21 @@ body{
 }
 
 div.row.surveyRow{
-	margin-top: 50px;
+	margin-top: 40px;
 }
 
 p.question{
 	font-style: bold;
 	font-size: 18px;
 	margin-left: 20px;
-	min-height: 100px;
+	min-height: 50px;
+}
+
+p.questionTable{
+	font-style: bold;
+	font-size: 18px;
+	margin-left: 20px;
+	min-height: 10px;
 }
 
 div.header{

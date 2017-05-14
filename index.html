@@ -181,7 +181,7 @@
 
 
 // /data/nonsense.csv
-        d3.csv("/data/BigDataBigThink2017Survey_20170412_5.csv", function(data) {
+        d3.csv("/data/cleaned_survey_results.csv", function(data) {
             console.log(data);
             data = splitBasedSmCol(data)
             data = takeOutSpacesinKeys(data)
@@ -311,7 +311,7 @@
           //// questionWidth_ = ?????
           //// questionNumber = see above
           //// ID is the id of the div on which chart rows are appended
-          buildRow(rowHolder[eachRow],cf,ID,questionNumber,questionsResult)
+          buildRow(data,rowHolder[eachRow],cf,ID,questionNumber,questionsResult)
           //// progresses the chart number used as ID by the number of questions in each row array inside the rowHolder array
           console.log("eachRow",rowHolder[eachRow])
           chartNumber += rowHolder[eachRow].length
