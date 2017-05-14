@@ -181,7 +181,7 @@
 
 
 // /data/nonsense.csv
-        d3.csv("/data/cleaned_survey_results.csv", function(data) {
+        d3.csv("data/cleaned_survey_results.csv", function(data) {
             console.log(data);
             data = splitBasedSmCol(data)
             data = takeOutSpacesinKeys(data)
