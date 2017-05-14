@@ -234,7 +234,7 @@ function groupQuestIntoRows(questionsResult){
 	var startAssumpChartSize = {
 		"piechart":4,
 		"rowchart":4,
-		"linearbarNumb":6,
+		"linearbarNumb":4,
 		"linearbarDate":6,
 		"linearbarTime":6,
 		"table":12
