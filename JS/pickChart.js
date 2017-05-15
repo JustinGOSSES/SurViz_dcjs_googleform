@@ -202,13 +202,14 @@ function returnChart(chartType){
 
 
 function getChartSize(chartType){
+	//console.log("test getChartSize chartType = ",chartType)
 	var size_ = {"height":250,"width":250}
-	if(chartType === "pieChart"){size_ =  {"height":250,"width":250}}
-	else if(chartType === "rowChart"){size_ =  {"height":450,"width":250}}
-	else if(chartType === "linearbarTime"){size_ =  {"height":350,"width":400}}
-	else if(chartType === "linearbarDate"){size_ =   {"height":350,"width":400}}
-	else if(chartType === "linearbarNumber"){size_ =   {"height":350,"width":400}}
-	else{size_ =   {"height":450,"width":400}}
+	if(chartType === "piechart"){size_ =  {"height":280,"width":280}}
+	else if(chartType === "rowchart"){size_ =  {"height":400,"width":330}}
+	else if(chartType === "linearbarTime"){size_ =  {"height":350,"width":330}}
+	else if(chartType === "linearbarDate"){size_ =   {"height":350,"width":330}}
+	else if(chartType === "linearbarNumb"){size_ =   {"height":350,"width":330}}
+	else{size_ =   {"height":350,"width":300}}
 	return size_
 }
 
