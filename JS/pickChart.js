@@ -362,30 +362,6 @@ function buildRow(data,row,cf,ID,questionNumber,questionsResult){
 }
 
 
-// <div class="row">
-// </div>
-
-      // <div class="col-sm-4 middle">
-      //     <div>
-      //         <p class="question">Is there an area you'd like to learn about, do more with in the future, or improve you/your team's skills in? [select all that apply]</p>
-      //     </div>
-      //     <div id="learn-bars"></div>
-      // </div>
-
-
-
-//// builds a div that holds a chart. 1-3 divs with charts go into each bootstrap row
-function builtDiv(){}
-
-
-
-///// function that creates html row for each row of charts based on ideal bootstrap config from function above
-
-
-
-///// function that creates html for each chart based
-
-
 
 
 
