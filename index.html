@@ -24,7 +24,7 @@
     <div id="header" class="row header">
         <div class="col-sm-12">
           <h2 class="center">Some Survey Title Goes Here</h2>
-            <p>This information was collected to give participants insight into the range of blank and blank in the room. What do they want to learn? What categories of data analytics do they work on? Are there any interesting gaps in terms of skill areas not present? How do they keep up with new technologies?</p>
+            <p>This information was collected to give participants insight into the range of blank and blank. For instance, we might want to know about blank and blank?</p>
         </div>
     </div>
 
@@ -46,141 +46,23 @@
       </div>
     </div>
     <div id="hangChartRowsOffMe"></div>
-<!-- 
-    <div class="row surveyRow">
-      <div class="col-sm-4 middle">
-          <div>
-              <p class="question">Which of these best describes your involvement with big data, data science, etc?</p>
-          </div>
-          <div id="role-bars"></div>
-      </div>
-      <div class="col-sm-4 middle">
-          <div>
-              <p class="question">What center are you affiliated with?</p>
-          </div>
-          <div class="circle_right" id="center-pie"></div>
-      </div>
-      <div class="col-sm-4 middle">
-         <div>
-              <p class="question">What are your degree(s) in?</p>
-          </div>
-         <div id="degree-bars"></div>
-      </div>
+
+    <div class="center">
+              <a class="center" href="javascript:dc.filterAll(); dc.renderAll();"><button type="button" class="btn btn-primary">Clear All Filters</button></a>
     </div>
-
-    <div class="row surveyRow">
-      <div class="col-sm-4 middle">
-          <div>
-              <p class="question">What is your favorite color?</p>
-          </div>
-          <div class="circle_right" id="medium-array-pie"></div>
-      </div>
-      <div class="col-sm-4 middle">
-          <div>
-              <p class="question">Are you on a team that focuses on data science or are you embedded in another group that happens to do some data science?</p>
-          </div>
-          <div id="team-bars"></div>
-      </div>
-      <div class="col-sm-4 middle">
-         <div>
-              <p class="question">Which of these is your organization using in some form? [select all that apply]</p>
-          </div>
-         <div id="tasks-bars"></div>
-      </div>
-    </div>
-
-    <div class="row surveyRow">
-      <div class="col-sm-4 middle">
-          <div>
-              <p class="question">Is there an area you'd like to learn about, do more with in the future, or improve you/your team's skills in? [select all that apply]</p>
-          </div>
-          <div id="learn-bars"></div>
-      </div>
-      <div class="col-sm-4 middle">
-            <div>
-              <p class="question">Who consumes your data-science-related projects?</p>
-            </div>
-         <div id="consumer-bars"></div>
-      </div>
-      <div class="col-sm-4 middle">
-            <div>
-              <p class="question">What technologies have you (or your team) used to do data cleaning, data analysis and modeling, or data visualization? (within last 7 years)</p>
-            </div>
-            <div id="tools-bars"></div>
-      </div>
-    </div>
-
-    <div class="row surveyRow">
-      <div class="col-sm-4 middle">
-         <div>
-              <p class="question">What are a few of the significant places you look to keep up with trends, technologies, and best practices in data science? </p>
-          </div>
-         <div id="resource-bars"></div>
-      </div>
-     
-      <div class="col-sm-4 middle">
-            <div>
-              <p class="question">If you could change two things about your data science work, what would they be? </p>
-            </div>
-            <div id="change-bars"></div>
-      </div>
-      <div class="col-sm-4 middle">
-          <div>
-              <p class="question">Are you attending the 2017 "Big Data Big Think"?</p>
-          </div>
-          <div class="circle_right" id="attend-pie"></div>
-        </div>
-    </div>
-
-    <div class="row surveyRow">
-        <div class="col-sm-12 middle">
-        <p class="question">How can we make the Big Data Big Think meeting more useful to you?</p>
-            <table id="useful-table" class="display" cellspacing="0" width="100%">
-              <thead>
-              <th></th>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-        </div> 
-        <div class="col-sm-12 middle">
-            <p class="question">Is there anything you want to say that didn't fit in the survey above? [optional]</p>
-            <table id="rip-table" class="display" cellspacing="0" width="100%">
-              <thead>
-                <th></th>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-        </div> 
-         <div class="col-sm-12 middle">
-            <p class="question">What do you wish your users understood about data science?</p>
-            <table id="understood-table" class="display" cellspacing="0" width="100%">
-               <thead>
-                 <th></th>
-               </thead>
-              <tbody>
-              </tbody>
-            </table>
-         </div> 
-    </div> -->
-
     <div class="row surveyRow gap">
     </div>
     <div class="row footer">
         <div class="col-sm-12">
           <h4>About</h4>
           <p>This data visualization was created with open-source JavaScript libraries, including: <a href="https://dc-js.github.io/dc.js/">DC.js</a>, <a href="https://github.com/crossfilter/crossfilter">Crossfilter.js</a>, and <a href="https://d3js.org/">D3.js</a>. D3.js creates the charts, DC.js handles the dimensional filtering between charts, and crossfilter creates the links between each data dimension.</p>
+          <p>For more information, please go to the github <a href="https://github.com/JustinGOSSES/SurViz_dcjs_googleform">readme</a></p>
       </div>
     </div>
 
     <script src="JS/questions.js"></script>
     <script src="JS/pickChart.js"></script>
     <script>
-
-
-
-// /data/nonsense.csv
         d3.csv("data/cleaned_survey_results.csv", function(data) {
             console.log(data);
             data = splitBasedSmCol(data)
