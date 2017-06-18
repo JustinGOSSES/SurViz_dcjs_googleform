@@ -172,7 +172,48 @@ function makeSingleTable(data, cf, id,questionWith_){
         "bInfo": false,
         "bAutoWidth": false
     });
-    // table.order([ 1, 'asc' ]).draw()
+    //table.order([ 1, 'asc' ]).draw()
+}
+
+function makeMultiColTable(data, cf, id,questions){
+	//console.log("ID for question table_id",table_id)
+	
+	$("div#"+id).append("<table id='table_"+id+"' class='display' cellspacing='0' width='100%'><thead><tr><th>question 1</th><th>question 2</th></tr></thead><tbody></tbody></table>")
+    //$("div#"+id).append("<table id='table_"+id+"' class='display' cellspacing='0' width='100%'><thead><tr></tr></thead><tbody></tbody></table>")
+
+	
+	// for (eachQ in questions){
+	// 	$("table#table_"+id+" thead").append("<th>"+questions[eachQ]+"</th>")
+	// }
+    
+    for (each in data){
+    	$("table#table_"+id+" tbody").append("<tr class="+each+"></tr>");
+    	for (eachQ2 in questions){
+    		var insert = String(data[each][questions[eachQ2]])
+    		if (insert === " " | insert === ""| insert.length < 2){
+    			questionHere = "no answer"
+    			console.log("print questions[eachQ2] = ",data[each][questions[eachQ2]])
+    			$("table#table_"+id+" tbody tr."+each).append("<td>"+questionHere+"</td>");
+    		}
+    		else{
+    			$("table#table_"+id+" tbody tr."+each).append("<td>"+data[each][questions[eachQ2]]+"</td>");
+    		}
+    		// $("table#table_"+id+" tbody tr."+each).append("<td>"+data[each][questions[eachQ2]]+"</td>");
+    	}
+    }
+
+    var table = $("table#table_"+id).DataTable({ 
+        "lengthMenu": [[10, 15, 50, -1], [10, 15, 50, "All"]],
+        "search":true,
+        "bLengthChange": true,
+        "bPaginate": true,
+        "bFilter": false,
+        "bInfo": false,
+        "bAutoWidth": false,
+        "aaSorting": [[1, "question 1"]]
+    });
+    table.draw()
+
 }
 
 ///////////////////////////// end functions that make different charts ///////////////////////

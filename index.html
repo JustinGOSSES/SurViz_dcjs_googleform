@@ -47,6 +47,8 @@
     </div>
     <div id="hangChartRowsOffMe"></div>
 
+    <h2 class="center">The combination table below does not filter like other chart elements</h2>
+    <div id="MultiColTable"></div>
     <div class="center">
               <a class="center" href="javascript:dc.filterAll(); dc.renderAll();"><button type="button" class="btn btn-primary">Clear All Filters</button></a>
     </div>
@@ -63,7 +65,7 @@
     <script src="JS/questions.js"></script>
     <script src="JS/pickChart.js"></script>
     <script>
-        d3.csv("data/cleaned_survey_results.csv", function(data) {
+        d3.csv("data/cleaned_survey_results_short.csv", function(data) {
             console.log(data);
             data = splitBasedSmCol(data)
             data = takeOutSpacesinKeys(data)
@@ -205,6 +207,19 @@
 
         //// after all charts are built, renders all of them
         dc.renderAll(); 
+
+
+      //   <!-- script to load table for multiple item table as end, this will be optional feature not normally used. -->
+      // <!-- #LastMultiColTable -->
+      makeMultiColTable(data, cf, "MultiColTable",["What_is_your_educational_background?","What_is_your_biggest_frustration_with_your_job?"])
     }
+
+
+
+
+
     </script>
+    <scrip>
+
+    </scrip>
 </body>

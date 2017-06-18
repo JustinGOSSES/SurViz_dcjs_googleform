@@ -1,5 +1,5 @@
 # SurViz_dcjs_googleform
-by <a href="https://github.com/JustinGOSSES">Justin Gosses</a>
+by <a href="https://github.com/JustinGOSSES">Justin Gosses</a>s
 
 ## "in progress"
 
