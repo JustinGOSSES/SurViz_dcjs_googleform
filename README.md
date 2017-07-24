@@ -7,7 +7,9 @@ by <a href="https://github.com/JustinGOSSES">Justin Gosses</a>
 A project you can drop any google form response csv into and an interactive website running dc.js on the charts will be produced.
 
 ## Current Status
-Charts are produced and communicate information from the initial example datasets, but the charts aren't very polished in their apperance. In addition, a wider range of chart types needs to be built. The tables probably needs to be represented as both a table and a chart with the 5-15 most common answers when the tables have a lot of repeated answers but too many unique answers to fit into another chart type.
+The charts are successfully produced automatically. The types of charts picked for each answer set seems to make sense too. Most immediate problem is the page loads too slow if there are a large number of questions and answers.
+
+In addition, a wider range of chart types needs to be built. The tables probably needs to be represented as both a table and a chart with the 5-15 most common answers when the tables have a lot of repeated answers but too many unique answers to fit into another chart type. Additional polish needs to be done through better CSS.
 
 ## Why 
 Most of the times when people look at survey results, the results for each question is only grouped at one level, everyone. Using DC.js it becomes super easy to also see the results for each question filtered by answers by every other question. For example, if question 1 is "are you tall" and question 2 is "are you old", you can see the results for "are you old" for only those that answer "yes, I am tall". This opens up the opportunity for <b>insight into data that was always there</b>, just rarely taken advantage of due to the extra work involved. 
