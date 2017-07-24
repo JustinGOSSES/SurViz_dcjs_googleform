@@ -60,7 +60,7 @@ Eventually, there will be an upload option, so users can upload their csv of goo
 - uponDataLoad(data,questions) = group of functions, functions that runs after data loads  & examineAnswer function runs
 
 #### pickChart.js
-- spickChart(questions) = function that picks the type of chart based on characteristics made in examineAnswers
+- pickChart(questions) = function that picks the type of chart based on characteristics made in examineAnswers
 - makePie(cf,ID,height,width,questionWith_)
 - makeRow(cf,ID,height,width,questionWith_)
 - makeLinearBar_Number(data,cf,ID,height,width,questionWith_,uniqItemsCount)
