@@ -63,10 +63,10 @@
     <script src="JS/questions.js"></script>
     <script src="JS/pickChart.js"></script>
     <script>
-        d3.csv("data/cleaned_survey_results.csv", function(data) {
+        d3.csv("data/cleaned_survey_results.csv", function(data) { 
             console.log(data);
             data = splitBasedSmCol(data)
-            data = takeOutSpacesinKeys(data)
+            // data = takeOutSpacesinKeys(data)
             console.log("processed into arrays hopefully! ",data);
             complete: examineAnswers(data)
         });

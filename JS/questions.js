@@ -135,24 +135,52 @@ function identify_questions(data){
 
 			//// START: if number, determine if answer is date vs. integer vs. time
 				//// call string and ignore if string
-				//// assuming if time or date, only one item in array?
-			if(questions[AnswerInt].numOr !== "number"){
-				questions[AnswerInt]["type"] = "string"
+			// 	//// assuming if time or date, only one item in array?
+			// if(questions[AnswerInt].numOr !== "number"){
+			// 	questions[AnswerInt]["type"] = "string"
+			// }
+			// 	//// check for : in 1 or 2 position for time. Check for / in 4 position if date
+			// else if(data[row][AnswerInt][0][4] === "/" || data[row][AnswerInt][0][1] === "/" || data[row][AnswerInt][0][2] === "/"){
+			// 	questions[AnswerInt]["type"] = "date"
+			// }
+			// else if(data[row][AnswerInt][0][1] === ":" || data[row][AnswerInt][0][2] === ":"){
+			// 	questions[AnswerInt]["type"] = "time"
+			// }
+			// 	//// if not time or date or string, consider as basic number
+			// else{
+			// 	questions[AnswerInt]["type"] = "number"
+			// 	//console.log("questions.js check time,date,number hit number? = ",data[row][AnswerInt][0])
+			// 	//console.log("questions.js check time,date,number hit number = ",data[row][AnswerInt][0][4])
+			// }
+			// //// END: if number, determine if answer is date vs. integer/decimal vs. time
+
+
+			try{
+				if(questions[AnswerInt].numOr !== "number"){
+					questions[AnswerInt]["type"] = "string"
+				}
+					//// check for : in 1 or 2 position for time. Check for / in 4 position if date
+				else if(data[row][AnswerInt][0][4] === "/" || data[row][AnswerInt][0][1] === "/" || data[row][AnswerInt][0][2] === "/"){
+					questions[AnswerInt]["type"] = "date"
+				}
+				else if(data[row][AnswerInt][0][1] === ":" || data[row][AnswerInt][0][2] === ":"){
+					questions[AnswerInt]["type"] = "time"
+				}
+					//// if not time or date or string, consider as basic number
+				else{
+					questions[AnswerInt]["type"] = "number"
+					//console.log("questions.js check time,date,number hit number? = ",data[row][AnswerInt][0])
+					//console.log("questions.js check time,date,number hit number = ",data[row][AnswerInt][0][4])
+				}
 			}
-				//// check for : in 1 or 2 position for time. Check for / in 4 position if date
-			else if(data[row][AnswerInt][0][4] === "/" || data[row][AnswerInt][0][1] === "/" || data[row][AnswerInt][0][2] === "/"){
-				questions[AnswerInt]["type"] = "date"
-			}
-			else if(data[row][AnswerInt][0][1] === ":" || data[row][AnswerInt][0][2] === ":"){
-				questions[AnswerInt]["type"] = "time"
-			}
-				//// if not time or date or string, consider as basic number
-			else{
+
+			catch(err){
+				console.log("err",err)
 				questions[AnswerInt]["type"] = "number"
-				//console.log("questions.js check time,date,number hit number? = ",data[row][AnswerInt][0])
-				//console.log("questions.js check time,date,number hit number = ",data[row][AnswerInt][0][4])
 			}
-			//// END: if number, determine if answer is date vs. integer/decimal vs. time
+
+
+
 			
 			//// START: length of longest answer in characters
 			//// creates it, if it doesn't exist
